@@ -303,6 +303,22 @@ button:hover { opacity: 0.85; }
   color: #555;
 }
 
+.badge-queue {
+  background: #2a4a8a;
+  color: #fff;
+}
+
+.book-card-queue {
+  border-left: 3px solid #2a4a8a;
+  opacity: 0.85;
+}
+
+.book-rec {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
 .book-series {
   font-size: 0.8rem;
   color: var(--text-muted);

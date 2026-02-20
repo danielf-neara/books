@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Tracker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <h1>Book Tracker</h1>
+    <div id="stats-strip">
+      <span class="stat"><span id="stat-total">--</span> read</span>
+      <span class="stat"><span id="stat-loved">--</span> loved</span>
+      <span class="stat"><span id="stat-dnf">--</span> DNF</span>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Add Book -->
+    <section id="add-section">
+      <button id="toggle-form-btn" class="btn-primary">+ Add Book</button>
+
+      <form id="book-form" class="hidden">
+        <h2 id="form-title">Add Book</h2>
+        <input type="hidden" id="edit-id">
+
+        <div class="form-row">
+          <label>Title *
+            <input type="text" id="f-title" placeholder="Title" required>
+          </label>
+          <label>Author *
+            <input type="text" id="f-author" placeholder="Author" required>
+          </label>
+        </div>
+
+        <div class="form-row">
+          <label>Series
+            <input type="text" id="f-series" placeholder="Series name (optional)">
+          </label>
+          <label># in series
+            <input type="number" id="f-series-order" placeholder="e.g. 1" min="1">
+          </label>
+        </div>
+
+        <div class="form-row">
+          <label>Format
+            <select id="f-format">
+              <option value="book">Book</option>
+              <option value="audiobook">Audiobook</option>
+            </select>
+          </label>
+          <label>Rating *
+            <select id="f-rating" required>
+              <option value="">-- select --</option>
+              <option value="loved">Loved</option>
+              <option value="great">Great</option>
+              <option value="very_good">Very Good</option>
+              <option value="decent">Decent</option>
+              <option value="average">Average</option>
+              <option value="disliked">Disliked</option>
+              <option value="dnf">DNF (Did Not Finish)</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="form-row">
+          <label>Date finished
+            <input type="date" id="f-date">
+          </label>
+          <label>Notes
+            <input type="text" id="f-notes" placeholder="Optional notes">
+          </label>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-primary" id="form-submit-btn">Add Book</button>
+          <button type="button" id="cancel-form-btn" class="btn-secondary">Cancel</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Filters -->
+    <section id="filter-section">
+      <div class="filter-bar">
+        <select id="filter-rating">
+          <option value="">All ratings</option>
+          <option value="loved">Loved</option>
+          <option value="great">Great</option>
+          <option value="very_good">Very Good</option>
+          <option value="decent">Decent</option>
+          <option value="average">Average</option>
+          <option value="disliked">Disliked</option>
+          <option value="dnf">DNF</option>
+        </select>
+
+        <select id="filter-format">
+          <option value="">All formats</option>
+          <option value="book">Book</option>
+          <option value="audiobook">Audiobook</option>
+        </select>
+
+        <select id="filter-finished">
+          <option value="">Finished + DNF</option>
+          <option value="true">Finished only</option>
+          <option value="false">DNF only</option>
+        </select>
+
+        <select id="sort-by">
+          <option value="date_added">Date added</option>
+          <option value="rating">Rating</option>
+          <option value="author">Author</option>
+          <option value="title">Title</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- Book List -->
+    <section id="books-section">
+      <div id="loading">Loading...</div>
+      <div id="book-list"></div>
+    </section>
+
+    <p class="recommend-note">
+      For recommendations, run <code>/book-recommend</code> in Claude Code.
+    </p>
+
+  </main>
+
+  <!-- Delete confirm dialog -->
+  <dialog id="delete-dialog">
+    <p id="delete-msg">Delete this book?</p>
+    <div class="dialog-actions">
+      <button id="confirm-delete-btn" class="btn-danger">Delete</button>
+      <button id="cancel-delete-btn" class="btn-secondary">Cancel</button>
+    </div>
+  </dialog>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+
+</body>
+</html>

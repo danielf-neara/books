@@ -1,0 +1,7 @@
+# Credentials -- never commit these
+.env
+config.js
+
+# Node
+node_modules/
+package-lock.json

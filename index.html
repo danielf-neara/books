@@ -14,6 +14,7 @@
       <span class="stat"><span id="stat-total">--</span> read</span>
       <span class="stat"><span id="stat-loved">--</span> loved</span>
       <span class="stat"><span id="stat-dnf">--</span> DNF</span>
+      <button id="export-btn" class="btn-export" title="Export books to JSON">Export</button>
     </div>
   </header>
 
@@ -109,7 +110,7 @@
         </select>
 
         <select id="sort-by">
-          <option value="date_added">Date added</option>
+          <option value="date_added">Recently added</option>
           <option value="rating">Rating</option>
           <option value="author">Author</option>
           <option value="title">Title</option>
@@ -119,7 +120,6 @@
 
     <!-- Book List -->
     <section id="books-section">
-      <div id="loading">Loading...</div>
       <div id="book-list"></div>
     </section>
 
@@ -138,8 +138,6 @@
     </div>
   </dialog>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="config.js"></script>
   <script src="app.js"></script>
 
 </body>

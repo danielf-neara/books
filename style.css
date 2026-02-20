@@ -60,6 +60,7 @@ header h1 {
 #stats-strip {
   display: flex;
   gap: 16px;
+  align-items: center;
 }
 
 .stat {
@@ -180,6 +181,20 @@ button:hover { opacity: 0.85; }
 .btn-danger {
   background: var(--btn-danger);
   color: #fff;
+}
+
+.btn-export {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-size: 0.78rem;
+}
+
+.btn-export:hover {
+  color: var(--text);
+  border-color: var(--text-muted);
 }
 
 .btn-icon {

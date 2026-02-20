@@ -1,7 +1,5 @@
-# Credentials -- never commit these
-.env
-config.js
+# Exported data (personal, don't commit)
+books-export.json
 
-# Node
+# Node (not used, but just in case)
 node_modules/
-package-lock.json

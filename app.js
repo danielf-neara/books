@@ -3,6 +3,7 @@
 /* -------------------------------------------------- */
 
 const STORAGE_KEY = 'books_data';
+const MIGRATION_KEY = 'books_migrated_v2';
 
 const RATING_ORDER = ['loved', 'great', 'very_good', 'decent', 'average', 'disliked', 'dnf'];
 
@@ -22,47 +23,47 @@ const RATING_LABELS = {
 
 const SEED_BOOKS = [
   // Don Winslow -- City Trilogy
-  { title: 'City on Fire',    author: 'Don Winslow', series: 'City Trilogy', series_order: 1, format: 'book', rating: 'loved',    finished: true,  notes: null },
-  { title: 'City of Dreams',  author: 'Don Winslow', series: 'City Trilogy', series_order: 2, format: 'book', rating: 'loved',    finished: true,  notes: null },
-  { title: 'City in Ruins',   author: 'Don Winslow', series: 'City Trilogy', series_order: 3, format: 'book', rating: 'loved',    finished: true,  notes: null },
+  { title: 'City on Fire',    author: 'Don Winslow', series: 'City Trilogy', series_order: 1, format: 'audiobook', rating: 'loved',    finished: true,  notes: null },
+  { title: 'City of Dreams',  author: 'Don Winslow', series: 'City Trilogy', series_order: 2, format: 'audiobook', rating: 'loved',    finished: true,  notes: null },
+  { title: 'City in Ruins',   author: 'Don Winslow', series: 'City Trilogy', series_order: 3, format: 'audiobook', rating: 'loved',    finished: true,  notes: null },
 
   // Dan Brown -- Robert Langdon
-  { title: 'Angels and Demons', author: 'Dan Brown', series: 'Robert Langdon', series_order: 1, format: 'book', rating: 'very_good', finished: true, notes: null },
-  { title: 'The Da Vinci Code', author: 'Dan Brown', series: 'Robert Langdon', series_order: 2, format: 'book', rating: 'very_good', finished: true, notes: null },
-  { title: 'The Lost Symbol',   author: 'Dan Brown', series: 'Robert Langdon', series_order: 3, format: 'book', rating: 'very_good', finished: true, notes: null },
+  { title: 'Angels and Demons', author: 'Dan Brown', series: 'Robert Langdon', series_order: 1, format: 'audiobook', rating: 'very_good', finished: true, notes: null },
+  { title: 'The Da Vinci Code', author: 'Dan Brown', series: 'Robert Langdon', series_order: 2, format: 'audiobook', rating: 'very_good', finished: true, notes: null },
+  { title: 'The Lost Symbol',   author: 'Dan Brown', series: 'Robert Langdon', series_order: 3, format: 'audiobook', rating: 'very_good', finished: true, notes: null },
 
   // Matthew Reilly -- Jack West Jr
-  { title: 'Seven Ancient Wonders',        author: 'Matthew Reilly', series: 'Jack West Jr', series_order: 1, format: 'book', rating: 'loved', finished: true, notes: null },
-  { title: 'Six Sacred Stones',            author: 'Matthew Reilly', series: 'Jack West Jr', series_order: 2, format: 'book', rating: 'loved', finished: true, notes: null },
-  { title: 'The Five Greatest Warriors',   author: 'Matthew Reilly', series: 'Jack West Jr', series_order: 3, format: 'book', rating: 'loved', finished: true, notes: null },
-  { title: 'The Four Legendary Kingdoms',  author: 'Matthew Reilly', series: 'Jack West Jr', series_order: 4, format: 'book', rating: 'loved', finished: true, notes: null },
-  { title: 'The Three Secret Cities',      author: 'Matthew Reilly', series: 'Jack West Jr', series_order: 5, format: 'book', rating: 'loved', finished: true, notes: null },
-  { title: 'The Two Lost Mountains',       author: 'Matthew Reilly', series: 'Jack West Jr', series_order: 6, format: 'book', rating: 'loved', finished: true, notes: null },
-  { title: 'The One Impossible Labyrinth', author: 'Matthew Reilly', series: 'Jack West Jr', series_order: 7, format: 'book', rating: 'loved', finished: true, notes: null },
+  { title: 'Seven Ancient Wonders',        author: 'Matthew Reilly', series: 'Jack West Jr', series_order: 1, format: 'audiobook', rating: 'loved', finished: true, notes: null },
+  { title: 'Six Sacred Stones',            author: 'Matthew Reilly', series: 'Jack West Jr', series_order: 2, format: 'audiobook', rating: 'loved', finished: true, notes: null },
+  { title: 'The Five Greatest Warriors',   author: 'Matthew Reilly', series: 'Jack West Jr', series_order: 3, format: 'audiobook', rating: 'loved', finished: true, notes: null },
+  { title: 'The Four Legendary Kingdoms',  author: 'Matthew Reilly', series: 'Jack West Jr', series_order: 4, format: 'audiobook', rating: 'loved', finished: true, notes: null },
+  { title: 'The Three Secret Cities',      author: 'Matthew Reilly', series: 'Jack West Jr', series_order: 5, format: 'audiobook', rating: 'loved', finished: true, notes: null },
+  { title: 'The Two Lost Mountains',       author: 'Matthew Reilly', series: 'Jack West Jr', series_order: 6, format: 'audiobook', rating: 'loved', finished: true, notes: null },
+  { title: 'The One Impossible Labyrinth', author: 'Matthew Reilly', series: 'Jack West Jr', series_order: 7, format: 'audiobook', rating: 'loved', finished: true, notes: null },
 
   // Matthew Reilly -- Scarecrow
-  { title: 'Ice Station',                       author: 'Matthew Reilly', series: 'Scarecrow', series_order: 1, format: 'book', rating: 'decent', finished: true, notes: null },
-  { title: 'Area 7',                            author: 'Matthew Reilly', series: 'Scarecrow', series_order: 2, format: 'book', rating: 'decent', finished: true, notes: null },
-  { title: 'Scarecrow',                         author: 'Matthew Reilly', series: 'Scarecrow', series_order: 3, format: 'book', rating: 'decent', finished: true, notes: null },
-  { title: 'Hell Island',                       author: 'Matthew Reilly', series: 'Scarecrow', series_order: 4, format: 'book', rating: 'decent', finished: true, notes: null },
-  { title: 'Scarecrow and the Army of Thieves', author: 'Matthew Reilly', series: 'Scarecrow', series_order: 5, format: 'book', rating: 'decent', finished: true, notes: null },
+  { title: 'Ice Station',                       author: 'Matthew Reilly', series: 'Scarecrow', series_order: 1, format: 'audiobook', rating: 'decent', finished: true, notes: null },
+  { title: 'Area 7',                            author: 'Matthew Reilly', series: 'Scarecrow', series_order: 2, format: 'audiobook', rating: 'decent', finished: true, notes: null },
+  { title: 'Scarecrow',                         author: 'Matthew Reilly', series: 'Scarecrow', series_order: 3, format: 'audiobook', rating: 'decent', finished: true, notes: null },
+  { title: 'Hell Island',                       author: 'Matthew Reilly', series: 'Scarecrow', series_order: 4, format: 'audiobook', rating: 'decent', finished: true, notes: null },
+  { title: 'Scarecrow and the Army of Thieves', author: 'Matthew Reilly', series: 'Scarecrow', series_order: 5, format: 'audiobook', rating: 'decent', finished: true, notes: null },
 
   // Others
-  { title: 'Hostage',                       author: 'Eli Sharabi',             series: null, series_order: null, format: 'book', rating: 'very_good', finished: true,  notes: null },
-  { title: 'I Am Pilgrim',                  author: 'Terry Hayes',             series: null, series_order: null, format: 'book', rating: 'loved',    finished: true,  notes: null },
-  { title: 'Ready Player One',              author: 'Ernest Cline',            series: 'Ready Player', series_order: 1, format: 'book', rating: 'loved',    finished: true,  notes: null },
-  { title: 'Ready Player Two',              author: 'Ernest Cline',            series: 'Ready Player', series_order: 2, format: 'book', rating: 'average',  finished: true,  notes: null },
-  { title: 'Kane and Abel',                 author: 'Jeffrey Archer',          series: null, series_order: null, format: 'book', rating: 'loved',    finished: true,  notes: null },
-  { title: 'The Fourth Estate',             author: 'Jeffrey Archer',          series: null, series_order: null, format: 'book', rating: 'decent',   finished: true,  notes: null },
-  { title: 'Greenlights',                   author: 'Matthew McConaughey',     series: null, series_order: null, format: 'book', rating: 'loved',    finished: true,  notes: 'Raucous Stories and Outlaw Wisdom' },
-  { title: 'The Firm',                      author: 'John Grisham',            series: null, series_order: null, format: 'book', rating: 'great',    finished: true,  notes: null },
-  { title: 'The Many Lives of Mama Love',   author: 'Lara Love Hardin',        series: null, series_order: null, format: 'book', rating: 'very_good', finished: true, notes: null },
-  { title: 'A Knight of the Seven Kingdoms',author: 'George R.R. Martin',      series: null, series_order: null, format: 'book', rating: 'decent',   finished: true,  notes: null },
-  { title: 'Yearbook',                      author: 'Seth Rogen',              series: null, series_order: null, format: 'book', rating: 'great',    finished: true,  notes: 'Hilarious' },
-  { title: 'Red Rising',                    author: 'Pierce Brown',            series: 'Red Rising', series_order: 1, format: 'book', rating: 'disliked', finished: true, notes: null },
-  { title: 'Exile',                         author: 'Richard North Patterson', series: null, series_order: null, format: 'book', rating: 'loved',    finished: true,  notes: null },
-  { title: 'Sandstorm',                     author: 'James Rollins',           series: null, series_order: null, format: 'book', rating: 'dnf',      finished: false, notes: null },
-  { title: 'The Templar Legacy',            author: 'Steve Berry',             series: null, series_order: null, format: 'book', rating: 'dnf',      finished: false, notes: '28% complete' },
+  { title: 'Hostage',                       author: 'Eli Sharabi',             series: null, series_order: null, format: 'audiobook', rating: 'very_good', finished: true,  notes: null },
+  { title: 'I Am Pilgrim',                  author: 'Terry Hayes',             series: null, series_order: null, format: 'audiobook', rating: 'loved',    finished: true,  notes: null },
+  { title: 'Ready Player One',              author: 'Ernest Cline',            series: 'Ready Player', series_order: 1, format: 'audiobook', rating: 'loved',    finished: true,  notes: null },
+  { title: 'Ready Player Two',              author: 'Ernest Cline',            series: 'Ready Player', series_order: 2, format: 'audiobook', rating: 'average',  finished: true,  notes: null },
+  { title: 'Kane and Abel',                 author: 'Jeffrey Archer',          series: null, series_order: null, format: 'audiobook', rating: 'loved',    finished: true,  notes: null },
+  { title: 'The Fourth Estate',             author: 'Jeffrey Archer',          series: null, series_order: null, format: 'audiobook', rating: 'decent',   finished: true,  notes: null },
+  { title: 'Greenlights',                   author: 'Matthew McConaughey',     series: null, series_order: null, format: 'audiobook', rating: 'loved',    finished: true,  notes: 'Raucous Stories and Outlaw Wisdom' },
+  { title: 'The Firm',                      author: 'John Grisham',            series: null, series_order: null, format: 'audiobook', rating: 'great',    finished: true,  notes: null },
+  { title: 'The Many Lives of Mama Love',   author: 'Lara Love Hardin',        series: null, series_order: null, format: 'audiobook', rating: 'very_good', finished: true, notes: null },
+  { title: 'A Knight of the Seven Kingdoms',author: 'George R.R. Martin',      series: null, series_order: null, format: 'audiobook', rating: 'decent',   finished: true,  notes: null },
+  { title: 'Yearbook',                      author: 'Seth Rogen',              series: null, series_order: null, format: 'audiobook', rating: 'great',    finished: true,  notes: 'Hilarious' },
+  { title: 'Red Rising',                    author: 'Pierce Brown',            series: 'Red Rising', series_order: 1, format: 'audiobook', rating: 'disliked', finished: true, notes: null },
+  { title: 'Exile',                         author: 'Richard North Patterson', series: null, series_order: null, format: 'audiobook', rating: 'loved',    finished: true,  notes: null },
+  { title: 'Sandstorm',                     author: 'James Rollins',           series: null, series_order: null, format: 'audiobook', rating: 'dnf',      finished: false, notes: null },
+  { title: 'The Templar Legacy',            author: 'Steve Berry',             series: null, series_order: null, format: 'audiobook', rating: 'dnf',      finished: false, notes: '28% complete' },
 ];
 
 /* -------------------------------------------------- */
@@ -76,15 +77,25 @@ function persistBooks() {
 function loadFromStorage() {
   const raw = localStorage.getItem(STORAGE_KEY);
   if (raw) {
-    try { return JSON.parse(raw); } catch { /* fall through */ }
+    try {
+      let books = JSON.parse(raw);
+      // Migration v2: set all formats to audiobook
+      if (!localStorage.getItem(MIGRATION_KEY)) {
+        books = books.map(b => ({ ...b, format: 'audiobook' }));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(books));
+        localStorage.setItem(MIGRATION_KEY, '1');
+      }
+      return books;
+    } catch { /* fall through */ }
   }
   // First run -- seed with existing book list
-  const seeded = SEED_BOOKS.map((b, i) => ({
+  const seeded = SEED_BOOKS.map(b => ({
     ...b,
     id: crypto.randomUUID(),
     date_added: null,
   }));
   localStorage.setItem(STORAGE_KEY, JSON.stringify(seeded));
+  localStorage.setItem(MIGRATION_KEY, '1');
   return seeded;
 }
 

@@ -3,7 +3,7 @@
 /* -------------------------------------------------- */
 
 const STORAGE_KEY   = 'books_data';
-const MIGRATION_KEY = 'books_migrated_v5';
+const MIGRATION_KEY = 'books_migrated_v6';
 
 const TAG_LABELS = {
   hooked_immediately: 'Hooked immediately',
@@ -92,6 +92,8 @@ function loadFromStorage() {
     try {
       let books = JSON.parse(raw);
       if (!localStorage.getItem(MIGRATION_KEY)) {
+        // Reset empty summaries so they get re-fetched with the improved search
+        books = books.map(b => ({ ...b, summary: b.summary === '' ? null : b.summary }));
         const statusMap = { listened: 'completed', want_to_listen: 'reading_list' };
         books = books.map(b => {
           let status = b.status || 'completed';
@@ -401,7 +403,7 @@ async function fetchBookDetails(id) {
 
   const [genres, summary] = await Promise.all([
     fetchGenres(book.title, book.author),
-    fetchWikipediaSummary(book.title),
+    fetchWikipediaSummary(book.title, book.author),
   ]);
 
   const idx = allBooks.findIndex(b => b.id === id);
@@ -429,20 +431,25 @@ async function fetchGenres(title, author) {
   }
 }
 
-async function fetchWikipediaSummary(title) {
-  const candidates = [title, `${title} (novel)`, `${title} (book)`];
-  for (const t of candidates) {
-    try {
-      const res  = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(t)}`);
+async function fetchWikipediaSummary(title, author) {
+  try {
+    // Search Wikipedia with title + author to find the right page
+    const query = `${title} ${author} book`;
+    const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(query)}&srlimit=3&format=json&origin=*`;
+    const searchRes  = await fetch(searchUrl);
+    const searchData = await searchRes.json();
+    const results    = searchData.query?.search || [];
+
+    for (const result of results) {
+      const res  = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(result.title)}`);
       if (!res.ok) continue;
       const data = await res.json();
       if (data.type === 'disambiguation' || !data.extract) continue;
-      // Take first 2 sentences
       const sentences = data.extract.match(/[^.!?]*[.!?]+/g) || [];
       return sentences.slice(0, 2).join(' ').trim();
-    } catch { continue; }
-  }
-  return ''; // empty string = checked, nothing usable found
+    }
+  } catch { /* fall through */ }
+  return '';
 }
 
 /* -------------------------------------------------- */

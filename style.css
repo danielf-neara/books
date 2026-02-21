@@ -289,6 +289,34 @@ button:hover { opacity: 0.85; }
 /* Book list (compact rows) */
 /* -------------------------------------------------- */
 #book-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.list-section-header {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  padding: 0 2px 6px;
+}
+
+.list-section-body {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+
+/* When no sections (flat list) */
+#book-list > .book-row {
+  background: var(--surface);
+}
+
+#book-list:not(:has(.list-section)) {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);

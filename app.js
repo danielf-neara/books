@@ -235,11 +235,36 @@ function updateStats() {
 
 function renderBooks(books) {
   const list = document.getElementById('book-list');
+
   if (books.length === 0) {
     list.innerHTML = '<div id="empty-state">No entries match the current filters.</div>';
     return;
   }
-  list.innerHTML = books.map(bookCardHTML).join('');
+
+  const inProgress = books.filter(b => b.status === 'in_progress');
+  const completed  = books.filter(b => b.status === 'completed');
+  const other      = books.filter(b => b.status !== 'in_progress' && b.status !== 'completed');
+
+  // If both sections present, render with headers; otherwise render flat
+  const showSections = inProgress.length > 0 && completed.length > 0;
+
+  if (showSections) {
+    list.innerHTML =
+      section('Now Playing', inProgress) +
+      section('Completed', completed) +
+      (other.length ? section('Other', other) : '');
+  } else {
+    list.innerHTML = books.map(bookCardHTML).join('');
+  }
+}
+
+function section(label, books) {
+  if (!books.length) return '';
+  return `
+    <div class="list-section">
+      <div class="list-section-header">${label}</div>
+      <div class="list-section-body">${books.map(bookCardHTML).join('')}</div>
+    </div>`;
 }
 
 function scoreClass(score) {

@@ -725,9 +725,28 @@ document.addEventListener('DOMContentLoaded', () => {
       const view = btn.dataset.view;
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      document.getElementById('library-view').classList.toggle('hidden', view !== 'library');
-      document.getElementById('analytics-view').classList.toggle('hidden', view !== 'analytics');
-      if (view === 'analytics') renderAnalytics(allBooks);
+
+      const isLibrary     = view === 'library';
+      const isReadingList = view === 'reading-list';
+      const isAnalytics   = view === 'analytics';
+
+      document.getElementById('library-view').classList.toggle('hidden', !isLibrary && !isReadingList);
+      document.getElementById('analytics-view').classList.toggle('hidden', !isAnalytics);
+
+      // Show/hide parts of the library view depending on tab
+      document.getElementById('add-section').classList.toggle('hidden', isReadingList);
+      document.getElementById('filter-section').classList.toggle('hidden', isReadingList);
+
+      if (isReadingList) {
+        // Force reading-list filter and re-render
+        document.getElementById('filter-status').value = 'reading_list';
+        applyFiltersAndRender();
+      } else if (isLibrary) {
+        document.getElementById('filter-status').value = '';
+        applyFiltersAndRender();
+      } else if (isAnalytics) {
+        renderAnalytics(allBooks);
+      }
     });
   });
 

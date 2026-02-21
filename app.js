@@ -167,6 +167,7 @@ function deleteBook(id) {
 
 function getFilters() {
   return {
+    query:  document.getElementById('search-input').value.trim().toLowerCase(),
     status: document.getElementById('filter-status').value,
     score:  document.getElementById('filter-score').value,
     format: document.getElementById('filter-format').value,
@@ -175,9 +176,14 @@ function getFilters() {
 }
 
 function applyFiltersAndRender() {
-  const { status, score, format, sortBy } = getFilters();
+  const { query, status, score, format, sortBy } = getFilters();
 
   let books = [...allBooks];
+
+  if (query) books = books.filter(b =>
+    (b.title  || '').toLowerCase().includes(query) ||
+    (b.author || '').toLowerCase().includes(query)
+  );
 
   if (status) books = books.filter(b => b.status === status);
 
@@ -725,6 +731,8 @@ document.addEventListener('DOMContentLoaded', () => {
   ['filter-status', 'filter-score', 'filter-format', 'sort-by'].forEach(id => {
     document.getElementById(id).addEventListener('change', applyFiltersAndRender);
   });
+
+  document.getElementById('search-input').addEventListener('input', applyFiltersAndRender);
 
   document.getElementById('export-btn').addEventListener('click', exportBooks);
 

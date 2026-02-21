@@ -268,6 +268,26 @@ function loadFromStorage() {
 
 let allBooks = [];
 let pendingDeleteId = null;
+let activeView      = 'home';
+let dragSrcId       = null;
+let libraryViewMode = 'list';
+
+const SPINE_COLORS = [
+  ['#1e3a6e', '#b8c8e8'],
+  ['#7a1515', '#e8c0c0'],
+  ['#1a5c3a', '#b8e0cc'],
+  ['#4a2c6e', '#d0b8e8'],
+  ['#7a5500', '#e8d8b0'],
+  ['#2c4a6e', '#b0c8e0'],
+  ['#6e3a1a', '#e8c8b0'],
+  ['#2c5c3a', '#b0d8c0'],
+];
+
+function bookSpineColor(id) {
+  let hash = 0;
+  for (let i = 0; i < id.length; i++) hash = (hash * 31 + id.charCodeAt(i)) | 0;
+  return SPINE_COLORS[Math.abs(hash) % SPINE_COLORS.length];
+}
 
 /* -------------------------------------------------- */
 /* CRUD */
@@ -330,25 +350,32 @@ function applyFiltersAndRender() {
 
   if (format) books = books.filter(b => b.format === format);
 
-  books.sort((a, b) => {
-    // In progress always floats to top regardless of sort
-    const aIn = a.status === 'in_progress' ? 0 : 1;
-    const bIn = b.status === 'in_progress' ? 0 : 1;
-    if (aIn !== bIn) return aIn - bIn;
+  if (activeView !== 'reading-list') {
+    books.sort((a, b) => {
+      // In progress always floats to top regardless of sort
+      const aIn = a.status === 'in_progress' ? 0 : 1;
+      const bIn = b.status === 'in_progress' ? 0 : 1;
+      if (aIn !== bIn) return aIn - bIn;
 
-    if (sortBy === 'score') {
-      const sa = STATUS_ORDER.indexOf(a.status);
-      const sb = STATUS_ORDER.indexOf(b.status);
-      if (sa !== sb) return sa - sb;
-      return (b.score ?? 0) - (a.score ?? 0);
-    }
-    if (sortBy === 'author') return (a.author || '').localeCompare(b.author || '');
-    if (sortBy === 'title')  return (a.title  || '').localeCompare(b.title  || '');
-    return 0; // date_added: insertion order
-  });
+      if (sortBy === 'score') {
+        const sa = STATUS_ORDER.indexOf(a.status);
+        const sb = STATUS_ORDER.indexOf(b.status);
+        if (sa !== sb) return sa - sb;
+        return (b.score ?? 0) - (a.score ?? 0);
+      }
+      if (sortBy === 'author') return (a.author || '').localeCompare(b.author || '');
+      if (sortBy === 'title')  return (a.title  || '').localeCompare(b.title  || '');
+      return 0; // date_added: insertion order
+    });
+  }
 
-  renderBooks(books);
+  if (libraryViewMode === 'shelf' && activeView === 'library') {
+    renderShelf(books);
+  } else {
+    renderBooks(books);
+  }
   updateStats();
+  addDragListeners();
 }
 
 /* -------------------------------------------------- */
@@ -438,6 +465,7 @@ function updateStats() {
 
 function renderBooks(books) {
   const list = document.getElementById('book-list');
+  list.classList.remove('shelf-mode');
 
   if (books.length === 0) {
     list.innerHTML = '<div id="empty-state">No entries match the current filters.</div>';
@@ -509,10 +537,14 @@ function bookCardHTML(book) {
     ? `<img class="row-cover" src="${book.cover_url}" alt="" loading="lazy">`
     : `<div class="row-cover row-cover-blank">${escHtml((book.title || '?')[0].toUpperCase())}</div>`;
 
+  const dragHandle = activeView === 'reading-list'
+    ? `<span class="drag-handle" onclick="event.stopPropagation()" aria-label="Drag to reorder">⠿</span>`
+    : '';
+
   return `
     <div class="book-row${isInProgress ? ' row-in-progress' : ''}" data-id="${id}">
       <div class="book-row-main" onclick="toggleRow('${id}')">
-        ${coverEl}
+        ${dragHandle}${coverEl}
         <div class="row-info">
           <span class="row-title">${escHtml(book.title)}</span><span class="row-author-sep"> · </span><span class="row-author">${escHtml(book.author)}</span>
         </div>
@@ -1009,6 +1041,214 @@ function escAttr(str) {
 }
 
 /* -------------------------------------------------- */
+/* Shelf view */
+/* -------------------------------------------------- */
+
+function toggleLibraryView() {
+  libraryViewMode = libraryViewMode === 'list' ? 'shelf' : 'list';
+  updateViewToggleBtn();
+  applyFiltersAndRender();
+}
+
+function updateViewToggleBtn() {
+  const btn = document.getElementById('view-toggle-btn');
+  if (!btn) return;
+  if (libraryViewMode === 'shelf') {
+    btn.textContent = '☰ List';
+    btn.title = 'Switch to list view';
+  } else {
+    btn.textContent = '⊞ Shelf';
+    btn.title = 'Switch to shelf view';
+  }
+}
+
+function renderShelf(books) {
+  const list = document.getElementById('book-list');
+  list.classList.add('shelf-mode');
+  const shelfBooks = books.filter(b => b.status !== 'reading_list');
+  if (shelfBooks.length === 0) {
+    list.innerHTML = '<div id="empty-state">No books to display on the shelf.</div>';
+    return;
+  }
+  list.innerHTML = `
+    <div class="shelf-container">
+      <div class="shelf-grid">
+        ${shelfBooks.map(shelfBookHTML).join('')}
+      </div>
+    </div>`;
+}
+
+function shelfBookHTML(book) {
+  const id = book.id;
+  const [bgColor, textColor] = bookSpineColor(id);
+  const hasCover = book.cover_url && book.cover_url !== 'none';
+
+  const coverEl = hasCover
+    ? `<img class="shelf-book-cover" src="${book.cover_url}" alt="" loading="lazy">`
+    : `<div class="shelf-book-cover shelf-book-cover-blank" style="background:${bgColor}"><span style="color:${textColor}">${escHtml((book.title || '?')[0].toUpperCase())}</span></div>`;
+
+  let badge = '';
+  if (book.status === 'in_progress') {
+    badge = `<span class="shelf-badge badge-progress">▶</span>`;
+  } else if (book.status === 'dnf') {
+    badge = `<span class="shelf-badge badge-dnf">✕</span>`;
+  } else if (book.score !== null && book.score !== undefined) {
+    badge = `<span class="shelf-badge ${scoreClass(book.score)}">${book.score}</span>`;
+  }
+
+  return `
+    <div class="shelf-book" onclick="openShelfDetail('${id}')" title="${escAttr(book.title)}">
+      <div class="shelf-book-cover-wrap">
+        ${coverEl}
+        ${badge}
+      </div>
+      <div class="shelf-book-info">
+        <div class="shelf-book-title">${escHtml(book.title)}</div>
+        <div class="shelf-book-author">${escHtml(book.author)}</div>
+      </div>
+    </div>`;
+}
+
+function openShelfDetail(id) {
+  const book = allBooks.find(b => b.id === id);
+  if (!book) return;
+
+  const dialog  = document.getElementById('shelf-dialog');
+  const [bgColor, textColor] = bookSpineColor(id);
+  const hasCover = book.cover_url && book.cover_url !== 'none';
+
+  const coverEl = hasCover
+    ? `<img class="shelf-detail-cover" src="${book.cover_url}" alt="">`
+    : `<div class="shelf-detail-cover shelf-detail-cover-blank" style="background:${bgColor};color:${textColor}">${escHtml((book.title || '?')[0].toUpperCase())}</div>`;
+
+  const scoreBadge = book.score !== null && book.score !== undefined
+    ? `<span class="shelf-detail-score ${scoreClass(book.score)}">${book.score}<span class="shelf-detail-score-denom">/10</span></span>`
+    : '';
+
+  const statusLabels = { completed: 'Completed', in_progress: 'In Progress', dnf: 'Did Not Finish', reading_list: 'Reading List' };
+  const seriesText  = book.series ? `${book.series}${book.series_order ? ' #' + book.series_order : ''}` : '';
+  const tags        = (book.tags || []).map(t => `<span class="tag">${TAG_LABELS[t] || t}</span>`).join('');
+  const date        = formatDate(book.date_added);
+
+  const metaParts = [];
+  if (seriesText)          metaParts.push(escHtml(seriesText));
+  if (book.format)         metaParts.push(book.format === 'audiobook' ? 'Audiobook' : 'Book');
+  if (date)                metaParts.push(date);
+  if (book.recommended_by) metaParts.push('Rec. by ' + escHtml(book.recommended_by));
+
+  document.getElementById('shelf-dialog-content').innerHTML = `
+    <div class="shelf-detail-layout">
+      <div class="shelf-detail-cover-col">
+        ${coverEl}
+        ${scoreBadge}
+      </div>
+      <div class="shelf-detail-info-col">
+        <h2 class="shelf-detail-title">${escHtml(book.title)}</h2>
+        <p class="shelf-detail-author">${escHtml(book.author)}</p>
+        ${metaParts.length ? `<p class="shelf-detail-meta">${metaParts.join(' · ')}</p>` : ''}
+        <p class="shelf-detail-status-label">${statusLabels[book.status] || book.status}</p>
+        ${book.notes ? `<p class="shelf-detail-notes">${escHtml(book.notes)}</p>` : ''}
+        ${tags ? `<div class="book-tags">${tags}</div>` : ''}
+      </div>
+    </div>`;
+
+  document.getElementById('shelf-dialog-edit').onclick = () => {
+    dialog.close();
+    if (libraryViewMode === 'shelf') {
+      libraryViewMode = 'list';
+      updateViewToggleBtn();
+      applyFiltersAndRender();
+    }
+    startEdit(id);
+  };
+
+  document.getElementById('shelf-dialog-delete').onclick = () => {
+    dialog.close();
+    promptDelete(id, book.title);
+  };
+
+  dialog.showModal();
+}
+
+/* -------------------------------------------------- */
+/* Drag-and-drop (reading list reorder) */
+/* -------------------------------------------------- */
+
+function addDragListeners() {
+  if (activeView !== 'reading-list') return;
+  document.querySelectorAll('#book-list .book-row').forEach(row => {
+    row.setAttribute('draggable', 'true');
+    row.addEventListener('dragstart', onDragStart);
+    row.addEventListener('dragover',  onDragOver);
+    row.addEventListener('dragleave', onDragLeave);
+    row.addEventListener('drop',      onDragDrop);
+    row.addEventListener('dragend',   onDragEnd);
+  });
+}
+
+function onDragStart(e) {
+  dragSrcId = this.dataset.id;
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/plain', dragSrcId);
+  setTimeout(() => this.classList.add('dragging'), 0);
+}
+
+function onDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  document.querySelectorAll('#book-list .book-row').forEach(r =>
+    r.classList.remove('drag-over-top', 'drag-over-bottom')
+  );
+  const rect = this.getBoundingClientRect();
+  this.classList.add(e.clientY < rect.top + rect.height / 2 ? 'drag-over-top' : 'drag-over-bottom');
+}
+
+function onDragLeave(e) {
+  if (!this.contains(e.relatedTarget)) {
+    this.classList.remove('drag-over-top', 'drag-over-bottom');
+  }
+}
+
+function onDragDrop(e) {
+  e.preventDefault();
+  const srcId    = dragSrcId;
+  const targetId = this.dataset.id;
+  if (srcId && targetId && srcId !== targetId) {
+    const rect   = this.getBoundingClientRect();
+    const before = e.clientY < rect.top + rect.height / 2;
+    dragSrcId = null;
+    reorderReadingList(srcId, targetId, before);
+  } else {
+    dragCleanup();
+  }
+}
+
+function onDragEnd() {
+  dragCleanup();
+}
+
+function dragCleanup() {
+  dragSrcId = null;
+  document.querySelectorAll('#book-list .book-row').forEach(r =>
+    r.classList.remove('dragging', 'drag-over-top', 'drag-over-bottom')
+  );
+}
+
+function reorderReadingList(srcId, targetId, before) {
+  const srcIdx = allBooks.findIndex(b => b.id === srcId);
+  if (srcIdx === -1) return;
+  const [src] = allBooks.splice(srcIdx, 1);
+  const targetIdx = allBooks.findIndex(b => b.id === targetId);
+  if (targetIdx === -1) {
+    allBooks.push(src);
+  } else {
+    allBooks.splice(before ? targetIdx : targetIdx + 1, 0, src);
+  }
+  persistBooks();
+  applyFiltersAndRender();
+}
+
+/* -------------------------------------------------- */
 /* Init */
 /* -------------------------------------------------- */
 
@@ -1085,6 +1325,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   document.getElementById('search-input').addEventListener('input', applyFiltersAndRender);
 
+  document.getElementById('view-toggle-btn').addEventListener('click', toggleLibraryView);
+
+  document.getElementById('shelf-dialog-close').addEventListener('click', () => {
+    document.getElementById('shelf-dialog').close();
+  });
+  document.getElementById('shelf-dialog-cancel').addEventListener('click', () => {
+    document.getElementById('shelf-dialog').close();
+  });
+
   document.getElementById('export-btn').addEventListener('click', exportBooks);
   document.getElementById('import-btn').addEventListener('click', importBooks);
   document.getElementById('import-input').addEventListener('change', handleImport);
@@ -1145,6 +1394,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Tab switching
   function activateTab(view) {
+    activeView = view;
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelector(`.tab-btn[data-view="${view}"]`).classList.add('active');
 
@@ -1159,6 +1409,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     document.getElementById('add-section').classList.toggle('hidden', isReadingList);
     document.getElementById('filter-section').classList.toggle('hidden', isReadingList);
+    document.getElementById('view-toggle-section').classList.toggle('hidden', isReadingList);
 
     if (isHome) {
       renderHome();

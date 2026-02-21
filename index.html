@@ -19,11 +19,25 @@
       <span class="stat"><span id="stat-total">--</span> listened</span>
       <span class="stat">avg <span id="stat-avg">--</span></span>
       <span class="stat"><span id="stat-queue">--</span> to listen</span>
+      <span id="sync-status" data-status="offline"></span>
+      <button id="settings-btn" class="btn-export" title="Sync settings">Settings</button>
       <button id="import-btn" class="btn-export" title="Import books from JSON">Import</button>
       <input type="file" id="import-input" accept=".json" style="display:none">
       <button id="export-btn" class="btn-export" title="Export books to JSON">Export</button>
     </div>
   </header>
+
+  <dialog id="settings-dialog">
+    <h2>GitHub Sync</h2>
+    <p>Create a <strong>fine-grained Personal Access Token</strong> at github.com → Settings → Developer settings → Personal access tokens. Set repository access to <em>danielf-neara/books</em> with <em>Contents: Read and write</em> permission.</p>
+    <label>Personal Access Token
+      <input type="password" id="settings-pat" placeholder="github_pat_…" autocomplete="off">
+    </label>
+    <div class="dialog-actions">
+      <button id="settings-save-btn" class="btn-primary">Save &amp; sync</button>
+      <button id="settings-cancel-btn" class="btn-secondary">Cancel</button>
+    </div>
+  </dialog>
 
   <nav class="view-tabs">
     <button class="tab-btn active" data-view="home">Home</button>

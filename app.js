@@ -82,6 +82,79 @@ const SEED_BOOKS = [
 /* localStorage + File System auto-sync               */
 /* -------------------------------------------------- */
 
+/* -------------------------------------------------- */
+/* GitHub sync */
+/* -------------------------------------------------- */
+
+const GITHUB_REPO = 'danielf-neara/books';
+const GITHUB_FILE = 'books-export.json';
+const GITHUB_PAT_KEY = 'github_pat';
+
+let githubSha  = null;
+let syncTimer  = null;
+
+function getGithubPat() {
+  return localStorage.getItem(GITHUB_PAT_KEY) || '';
+}
+
+async function githubLoad() {
+  const pat = getGithubPat();
+  const headers = { Accept: 'application/vnd.github+json' };
+  if (pat) headers.Authorization = `Bearer ${pat}`;
+  try {
+    const res = await fetch(
+      `https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_FILE}`,
+      { headers }
+    );
+    if (!res.ok) return null;
+    const data = await res.json();
+    githubSha = data.sha;
+    return JSON.parse(atob(data.content.replace(/\n/g, '')));
+  } catch {
+    return null;
+  }
+}
+
+async function githubSave() {
+  const pat = getGithubPat();
+  if (!pat) return;
+  setSyncStatus('syncing');
+  try {
+    const json    = JSON.stringify(allBooks, null, 2);
+    const content = btoa(unescape(encodeURIComponent(json)));
+    const res = await fetch(
+      `https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_FILE}`,
+      {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${pat}`,
+          Accept: 'application/vnd.github+json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(Object.assign({ message: 'Update books', content }, githubSha ? { sha: githubSha } : {})),
+      }
+    );
+    if (!res.ok) { setSyncStatus('error'); return; }
+    const data = await res.json();
+    githubSha = data.content.sha;
+    setSyncStatus('synced');
+  } catch {
+    setSyncStatus('error');
+  }
+}
+
+function setSyncStatus(status) {
+  const el = document.getElementById('sync-status');
+  if (!el) return;
+  const labels = { synced: 'Synced', syncing: 'Syncing\u2026', error: 'Sync failed', offline: 'Local only' };
+  el.textContent = labels[status] || '';
+  el.dataset.status = status;
+}
+
+/* -------------------------------------------------- */
+/* localStorage + File System auto-sync               */
+/* -------------------------------------------------- */
+
 let _fileHandle = null;
 
 async function _idbOp(mode, fn) {
@@ -132,6 +205,8 @@ async function persistBooks() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(allBooks));
   const handle = await _loadHandle();
   if (handle) await _writeToHandle(handle, JSON.stringify(allBooks, null, 2));
+  clearTimeout(syncTimer);
+  syncTimer = setTimeout(githubSave, 1500);
 }
 
 function loadFromStorage() {
@@ -962,15 +1037,23 @@ async function syncFromFile() {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const { books, needsPermission } = await loadFromFile();
-  if (books) {
-    allBooks = books;
+  const githubBooks = await githubLoad();
+  if (githubBooks) {
+    allBooks = githubBooks;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(allBooks));
+    setSyncStatus('synced');
   } else {
-    allBooks = loadFromStorage();
-  }
-  if (needsPermission) {
-    document.getElementById('sync-banner').classList.remove('hidden');
+    const { books, needsPermission } = await loadFromFile();
+    if (books) {
+      allBooks = books;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(allBooks));
+    } else {
+      allBooks = loadFromStorage();
+    }
+    if (needsPermission) {
+      document.getElementById('sync-banner').classList.remove('hidden');
+    }
+    setSyncStatus(getGithubPat() ? 'error' : 'offline');
   }
 
   document.getElementById('toggle-form-btn').addEventListener('click', () => {
@@ -999,6 +1082,28 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('import-btn').addEventListener('click', importBooks);
   document.getElementById('import-input').addEventListener('change', handleImport);
   document.getElementById('sync-banner-btn').addEventListener('click', syncFromFile);
+
+  document.getElementById('settings-btn').addEventListener('click', () => {
+    document.getElementById('settings-pat').value = getGithubPat();
+    document.getElementById('settings-dialog').showModal();
+  });
+  document.getElementById('settings-save-btn').addEventListener('click', async () => {
+    const pat = document.getElementById('settings-pat').value.trim();
+    if (pat) localStorage.setItem(GITHUB_PAT_KEY, pat);
+    else localStorage.removeItem(GITHUB_PAT_KEY);
+    document.getElementById('settings-dialog').close();
+    const books = await githubLoad();
+    if (books) {
+      allBooks = books;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(allBooks));
+      setSyncStatus('synced');
+      applyFiltersAndRender();
+      renderHome();
+    }
+  });
+  document.getElementById('settings-cancel-btn').addEventListener('click', () => {
+    document.getElementById('settings-dialog').close();
+  });
 
   // Title lookup
   const titleInput = document.getElementById('f-title');

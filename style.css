@@ -38,6 +38,37 @@ body {
 }
 
 /* -------------------------------------------------- */
+/* Sync status + settings */
+/* -------------------------------------------------- */
+
+#sync-status {
+  font-size: 0.72rem;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 5px;
+  letter-spacing: 0.01em;
+}
+#sync-status[data-status="synced"]  { color: #1a6b4a; background: #e6f4ee; }
+#sync-status[data-status="syncing"] { color: #7a5500; background: #fef6e4; }
+#sync-status[data-status="error"]   { color: #8a2020; background: #fdeaea; }
+#sync-status[data-status="offline"] { color: var(--muted); background: transparent; }
+
+#settings-dialog {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+}
+#settings-dialog h2 { font-size: 1rem; margin-bottom: 12px; }
+#settings-dialog p  { font-size: 0.8rem; color: var(--muted); line-height: 1.6; margin-bottom: 16px; }
+#settings-dialog label { display: flex; flex-direction: column; gap: 6px; font-size: 0.8rem; font-weight: 500; }
+#settings-dialog input { margin-top: 2px; }
+#settings-dialog .dialog-actions { margin-top: 20px; }
+#settings-dialog::backdrop { background: rgba(0,0,0,0.3); }
+
+/* -------------------------------------------------- */
 /* Sync banner */
 /* -------------------------------------------------- */
 #sync-banner {

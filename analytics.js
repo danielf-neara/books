@@ -56,6 +56,7 @@ function renderAnalytics(allBooks) {
   renderTagsChart(listened);
   renderAuthorsChart(listened);
   renderTimeChart(listened);
+  renderReferrerChart(listened);
 }
 
 /* -------------------------------------------------- */
@@ -252,6 +253,92 @@ function renderAuthorsChart(books) {
           beginAtZero: true,
           ticks: { stepSize: 1, precision: 0 },
           grid: { color: '#f0ece6' },
+        },
+        y: { grid: { display: false } },
+      },
+    },
+  });
+}
+
+/* -------------------------------------------------- */
+/* Recommendations by Source */
+/* -------------------------------------------------- */
+
+function renderReferrerChart(books) {
+  destroyChart('referrers');
+
+  const referrerData = {};
+  books.forEach(b => {
+    if (!b.recommended_by || b.score === null || b.score === undefined) return;
+    const key = b.recommended_by.trim();
+    if (!key) return;
+    if (!referrerData[key]) referrerData[key] = [];
+    referrerData[key].push(b.score);
+  });
+
+  const entries = Object.entries(referrerData)
+    .map(([name, scores]) => ({
+      name,
+      count: scores.length,
+      avg: scores.reduce((a, b) => a + b, 0) / scores.length,
+    }))
+    .sort((a, b) => b.avg - a.avg);
+
+  const wrap = document.getElementById('chart-referrers-wrap');
+  const note = document.getElementById('chart-referrers-note');
+
+  if (entries.length === 0) {
+    hideEl(wrap);
+    show('chart-referrers-note');
+    return;
+  }
+
+  showEl(wrap);
+  hide('chart-referrers-note');
+
+  const labels = entries.map(e => `${e.name} (${e.count} book${e.count !== 1 ? 's' : ''})`);
+  const data   = entries.map(e => parseFloat(e.avg.toFixed(1)));
+  const colors = entries.map(e => {
+    const avg = e.avg;
+    if (avg >= 9) return SCORE_COLORS_MAP[9];
+    if (avg >= 8) return SCORE_COLORS_MAP[8];
+    if (avg >= 7) return SCORE_COLORS_MAP[7];
+    if (avg >= 6) return SCORE_COLORS_MAP[6];
+    if (avg >= 5) return SCORE_COLORS_MAP[5];
+    return SCORE_COLORS_MAP[4];
+  });
+
+  const ctx = document.getElementById('chart-referrers').getContext('2d');
+  CHART_INSTANCES['referrers'] = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        data,
+        backgroundColor: colors,
+        borderRadius: 5,
+        borderSkipped: false,
+      }],
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: c => ` avg score ${c.raw}`,
+          },
+        },
+      },
+      scales: {
+        x: {
+          beginAtZero: true,
+          max: 10,
+          ticks: { stepSize: 1, precision: 0 },
+          grid: { color: '#f0ece6' },
+          title: { display: true, text: 'Avg score out of 10', color: '#999', font: { size: 11 } },
         },
         y: { grid: { display: false } },
       },

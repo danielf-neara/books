@@ -8,23 +8,75 @@
 </head>
 <body>
 
+  <div id="sync-banner" class="hidden">
+    File sync needs permission.
+    <button id="sync-banner-btn">Sync now</button>
+  </div>
+
   <header>
     <h1>Book Tracker</h1>
     <div id="stats-strip">
       <span class="stat"><span id="stat-total">--</span> listened</span>
       <span class="stat">avg <span id="stat-avg">--</span></span>
       <span class="stat"><span id="stat-queue">--</span> to listen</span>
+      <button id="import-btn" class="btn-export" title="Import books from JSON">Import</button>
+      <input type="file" id="import-input" accept=".json" style="display:none">
       <button id="export-btn" class="btn-export" title="Export books to JSON">Export</button>
     </div>
   </header>
 
   <nav class="view-tabs">
-    <button class="tab-btn active" data-view="library">Library</button>
+    <button class="tab-btn active" data-view="home">Home</button>
+    <button class="tab-btn" data-view="library">Library</button>
     <button class="tab-btn" data-view="reading-list">Reading List</button>
     <button class="tab-btn" data-view="analytics">Analytics</button>
   </nav>
 
   <main>
+
+    <!-- ===================== HOME VIEW ===================== -->
+    <div id="home-view" class="hidden">
+
+      <div class="home-hero">
+        <div class="home-hero-grid"></div>
+        <div class="home-hero-inner">
+          <div class="home-hero-stat">
+            <span class="home-hero-num" id="home-total">--</span>
+            <span class="home-hero-label">listened</span>
+          </div>
+          <div class="home-hero-divider"></div>
+          <div class="home-hero-stat">
+            <span class="home-hero-num" id="home-avg">--</span>
+            <span class="home-hero-label">avg score</span>
+          </div>
+          <div class="home-hero-divider"></div>
+          <div class="home-hero-stat">
+            <span class="home-hero-num" id="home-queue">--</span>
+            <span class="home-hero-label">to listen</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="home-content">
+
+        <section id="home-current-section" class="hidden">
+          <h2 class="home-section-title">Currently reading</h2>
+          <div id="home-current" class="home-cards-row"></div>
+        </section>
+
+        <section>
+          <h2 class="home-section-title">Recently finished</h2>
+          <div id="home-recent" class="home-cards-row"></div>
+        </section>
+
+        <section id="home-upnext-section" class="hidden">
+          <h2 class="home-section-title">Up next</h2>
+          <div id="home-upnext" class="home-cards-row"></div>
+        </section>
+
+      </div>
+
+    </div><!-- /home-view -->
 
     <!-- ===================== LIBRARY VIEW ===================== -->
     <div id="library-view">
@@ -44,9 +96,12 @@
               </label>
               <div id="book-suggestions" class="hidden"></div>
             </div>
-            <label>Author *
-              <input type="text" id="f-author" placeholder="Auto-filled or type manually" required>
-            </label>
+            <div class="author-field">
+              <label>Author *
+                <input type="text" id="f-author" placeholder="Auto-filled or type manually" required autocomplete="off">
+              </label>
+              <div id="author-suggestions" class="hidden"></div>
+            </div>
           </div>
 
           <div class="form-row">
@@ -188,6 +243,14 @@
             <canvas id="chart-tags"></canvas>
           </div>
           <p class="chart-note hidden" id="chart-tags-note">No experience tags logged yet. Add them when editing a book.</p>
+        </div>
+
+        <div class="chart-card">
+          <h3>Recommendations by Source</h3>
+          <div class="chart-wrap" id="chart-referrers-wrap">
+            <canvas id="chart-referrers"></canvas>
+          </div>
+          <p class="chart-note hidden" id="chart-referrers-note">No recommendations logged yet. Add a "Recommended by" when editing a book.</p>
         </div>
 
         <div class="chart-card chart-full">

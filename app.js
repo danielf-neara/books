@@ -3,7 +3,7 @@
 /* -------------------------------------------------- */
 
 const STORAGE_KEY   = 'books_data';
-const MIGRATION_KEY = 'books_migrated_v6';
+const MIGRATION_KEY = 'books_migrated_v7';
 
 const TAG_LABELS = {
   hooked_immediately: 'Hooked immediately',
@@ -92,8 +92,8 @@ function loadFromStorage() {
     try {
       let books = JSON.parse(raw);
       if (!localStorage.getItem(MIGRATION_KEY)) {
-        // Reset empty summaries so they get re-fetched with the improved search
-        books = books.map(b => ({ ...b, summary: b.summary === '' ? null : b.summary }));
+        // Reset all summaries so they re-fetch with the plot-section approach
+        books = books.map(b => ({ ...b, summary: null }));
         const statusMap = { listened: 'completed', want_to_listen: 'reading_list' };
         books = books.map(b => {
           let status = b.status || 'completed';
@@ -433,22 +433,40 @@ async function fetchGenres(title, author) {
 
 async function fetchWikipediaSummary(title, author) {
   try {
-    // Search Wikipedia with title + author to find the right page
-    const query = `${title} ${author} book`;
-    const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(query)}&srlimit=3&format=json&origin=*`;
+    // Search Wikipedia with title + author + novel to find the book's page
+    const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(title + ' ' + author + ' novel')}&srlimit=3&format=json&origin=*`;
     const searchRes  = await fetch(searchUrl);
     const searchData = await searchRes.json();
     const results    = searchData.query?.search || [];
 
     for (const result of results) {
-      const res  = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(result.title)}`);
-      if (!res.ok) continue;
-      const data = await res.json();
-      if (data.type === 'disambiguation' || !data.extract) continue;
-      const sentences = data.extract.match(/[^.!?]*[.!?]+/g) || [];
-      return sentences.slice(0, 2).join(' ').trim();
+      // Fetch structured sections via the mobile API
+      const secRes = await fetch(`https://en.wikipedia.org/api/rest_v1/page/mobile-sections/${encodeURIComponent(result.title)}`);
+      if (!secRes.ok) continue;
+      const secData = await secRes.json();
+      const sections = secData.remaining?.sections || [];
+
+      // Look for a Plot or Synopsis section
+      const plotSec = sections.find(s => /^(plot|synopsis)/i.test(s.anchor || ''));
+      if (plotSec?.text) {
+        const text = plotSec.text.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+        const sentences = text.match(/[^.!?]+[.!?]+/g) || [];
+        if (sentences.length) return sentences.slice(0, 3).join(' ').trim();
+      }
     }
-  } catch { /* fall through */ }
+
+    // Fallback: page intro of the first result if no plot section found
+    if (results[0]) {
+      const res  = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(results[0].title)}`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.type !== 'disambiguation' && data.extract) {
+          const sentences = data.extract.match(/[^.!?]+[.!?]+/g) || [];
+          return sentences.slice(0, 2).join(' ').trim();
+        }
+      }
+    }
+  } catch { /* silent fail */ }
   return '';
 }
 

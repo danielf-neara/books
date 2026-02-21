@@ -263,12 +263,6 @@ function bookCardHTML(book) {
   const isQueue      = book.status === 'reading_list';
   const isDnf        = book.status === 'dnf';
 
-  const seriesText = book.series
-    ? `${book.series}${book.series_order ? ' #' + book.series_order : ''}`
-    : '';
-  const date = formatDate(book.date_added);
-  const tags = (book.tags || []).map(t => `<span class="tag">${TAG_LABELS[t] || t}</span>`).join('');
-
   let indicator;
   if (isInProgress) {
     indicator = `<span class="row-dot"></span>`;
@@ -282,9 +276,42 @@ function bookCardHTML(book) {
     indicator = '';
   }
 
-  const coverEl = book.cover_url
+  const hasCover = book.cover_url && book.cover_url !== 'none';
+  const coverEl  = hasCover
     ? `<img class="row-cover" src="${book.cover_url}" alt="" loading="lazy">`
     : `<div class="row-cover row-cover-blank">${escHtml((book.title || '?')[0].toUpperCase())}</div>`;
+
+  return `
+    <div class="book-row${isInProgress ? ' row-in-progress' : ''}" data-id="${id}">
+      <div class="book-row-main" onclick="toggleRow('${id}')">
+        ${coverEl}
+        <div class="row-info">
+          <span class="row-title">${escHtml(book.title)}</span><span class="row-author-sep"> · </span><span class="row-author">${escHtml(book.author)}</span>
+        </div>
+        ${indicator}
+        <span class="row-chevron">›</span>
+      </div>
+      <div class="book-detail">
+        <div class="detail-inner">
+          <div class="detail-content" id="detail-${id}">
+            ${buildDetailContent(book)}
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+/* -------------------------------------------------- */
+/* Detail content builder */
+/* -------------------------------------------------- */
+
+function buildDetailContent(book) {
+  const id   = book.id;
+  const date = formatDate(book.date_added);
+  const tags = (book.tags || []).map(t => `<span class="tag">${TAG_LABELS[t] || t}</span>`).join('');
+  const seriesText = book.series
+    ? `${book.series}${book.series_order ? ' #' + book.series_order : ''}`
+    : '';
 
   const metaParts = [];
   if (seriesText)          metaParts.push(escHtml(seriesText));
@@ -292,30 +319,26 @@ function bookCardHTML(book) {
   if (date)                metaParts.push(date);
   if (book.recommended_by) metaParts.push('Rec. ' + escHtml(book.recommended_by));
 
+  const genreHtml = (book.genres || []).length
+    ? `<div class="detail-genres">${book.genres.map(g => `<span class="genre-pill">${escHtml(g)}</span>`).join('')}</div>`
+    : '';
+
+  const summaryHtml = book.summary
+    ? `<div class="detail-summary">${escHtml(book.summary)}</div>`
+    : (book.summary === null || book.summary === undefined)
+      ? `<div class="detail-summary detail-loading">Loading summary...</div>`
+      : '';
+
   return `
-    <div class="book-row${isInProgress ? ' row-in-progress' : ''}" data-id="${id}">
-      <div class="book-row-main" onclick="toggleRow('${id}')">
-        ${coverEl}
-        <div class="row-info">
-          <div class="row-title">${escHtml(book.title)}</div>
-          <div class="row-author">${escHtml(book.author)}</div>
-        </div>
-        ${indicator}
-        <span class="row-chevron">›</span>
-      </div>
-      <div class="book-detail">
-        <div class="detail-inner">
-          <div class="detail-content">
-            ${metaParts.length ? `<div class="detail-meta">${metaParts.join(' · ')}</div>` : ''}
-            ${tags ? `<div class="book-tags">${tags}</div>` : ''}
-            ${book.notes ? `<div class="detail-notes">${escHtml(book.notes)}</div>` : ''}
-            <div class="detail-actions">
-              <button class="btn-row-action" onclick="event.stopPropagation(); startEdit('${id}')">Edit</button>
-              <button class="btn-row-action danger" onclick="event.stopPropagation(); promptDelete('${id}', '${escAttr(book.title)}')">Delete</button>
-            </div>
-          </div>
-        </div>
-      </div>
+    ${book.summary === null || book.summary === undefined ? '' : ''}
+    ${metaParts.length ? `<div class="detail-meta">${metaParts.join(' · ')}</div>` : ''}
+    ${genreHtml}
+    ${summaryHtml}
+    ${tags ? `<div class="book-tags">${tags}</div>` : ''}
+    ${book.notes ? `<div class="detail-notes">${escHtml(book.notes)}</div>` : ''}
+    <div class="detail-actions">
+      <button class="btn-row-action" onclick="event.stopPropagation(); startEdit('${id}')">Edit</button>
+      <button class="btn-row-action danger" onclick="event.stopPropagation(); promptDelete('${id}', '${escAttr(book.title)}')">Delete</button>
     </div>`;
 }
 
@@ -327,9 +350,68 @@ function toggleRow(id) {
   const row = document.querySelector(`.book-row[data-id="${id}"]`);
   if (!row) return;
   const isExpanding = !row.classList.contains('expanded');
-  // Collapse all others
   document.querySelectorAll('.book-row.expanded').forEach(r => r.classList.remove('expanded'));
-  if (isExpanding) row.classList.add('expanded');
+  if (isExpanding) {
+    row.classList.add('expanded');
+    fetchBookDetails(id);
+  }
+}
+
+/* -------------------------------------------------- */
+/* Lazy-fetch genre + summary on expand */
+/* -------------------------------------------------- */
+
+async function fetchBookDetails(id) {
+  const book = allBooks.find(b => b.id === id);
+  if (!book) return;
+  // Already fetched (empty string = checked, nothing found)
+  if (book.genres !== null && book.genres !== undefined &&
+      book.summary !== null && book.summary !== undefined) return;
+
+  const [genres, summary] = await Promise.all([
+    fetchGenres(book.title, book.author),
+    fetchWikipediaSummary(book.title),
+  ]);
+
+  const idx = allBooks.findIndex(b => b.id === id);
+  if (idx === -1) return;
+  allBooks[idx] = { ...allBooks[idx], genres, summary };
+  persistBooks();
+
+  // Refresh the detail panel if still expanded
+  const el = document.getElementById(`detail-${id}`);
+  if (el) el.innerHTML = buildDetailContent(allBooks[idx]);
+}
+
+async function fetchGenres(title, author) {
+  try {
+    const url = `https://openlibrary.org/search.json?title=${encodeURIComponent(title)}&author=${encodeURIComponent(author)}&limit=1&fields=subject`;
+    const res  = await fetch(url);
+    const data = await res.json();
+    const subjects = data.docs?.[0]?.subject || [];
+    // Keep short, non-location subjects (likely genre labels)
+    return subjects
+      .filter(s => s.length < 28 && !/\(|\d/.test(s))
+      .slice(0, 4);
+  } catch {
+    return [];
+  }
+}
+
+async function fetchWikipediaSummary(title) {
+  const candidates = [title, `${title} (novel)`, `${title} (book)`];
+  for (const t of candidates) {
+    try {
+      const res  = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(t)}`);
+      if (!res.ok) continue;
+      const data = await res.json();
+      if (data.type === 'disambiguation' || !data.extract) continue;
+      // Take first 2 sentences
+      const sentences = data.extract.match(/[^.!?]*[.!?]+/g) || [];
+      return sentences.slice(0, 2).join(' ').trim();
+    } catch { continue; }
+  }
+  return ''; // empty string = checked, nothing usable found
 }
 
 /* -------------------------------------------------- */
@@ -463,6 +545,51 @@ function exportBooks() {
   const a    = Object.assign(document.createElement('a'), { href: url, download: 'books-export.json' });
   a.click();
   URL.revokeObjectURL(url);
+}
+
+/* -------------------------------------------------- */
+/* Auto-fetch missing covers */
+/* -------------------------------------------------- */
+
+async function fetchMissingCovers() {
+  const missing = allBooks.filter(b => b.cover_url === null || b.cover_url === undefined);
+  if (!missing.length) return;
+
+  // Process in batches of 4 to avoid hammering the API
+  for (let i = 0; i < missing.length; i += 4) {
+    const batch = missing.slice(i, i + 4);
+    await Promise.all(batch.map(async book => {
+      try {
+        const url = `https://openlibrary.org/search.json?title=${encodeURIComponent(book.title)}&author=${encodeURIComponent(book.author)}&limit=1&fields=cover_i`;
+        const res  = await fetch(url);
+        const data = await res.json();
+        const coverId = data.docs?.[0]?.cover_i;
+        const coverUrl = coverId
+          ? `https://covers.openlibrary.org/b/id/${coverId}-M.jpg`
+          : 'none'; // sentinel so we don't re-fetch
+        const idx = allBooks.findIndex(b => b.id === book.id);
+        if (idx !== -1) {
+          allBooks[idx].cover_url = coverUrl;
+          updateCoverInDom(book.id, coverUrl);
+        }
+      } catch { /* silent fail */ }
+    }));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(allBooks));
+    if (i + 4 < missing.length) await new Promise(r => setTimeout(r, 250));
+  }
+}
+
+function updateCoverInDom(id, coverUrl) {
+  const el = document.querySelector(`.book-row[data-id="${id}"] .row-cover, .book-row[data-id="${id}"] .row-cover-blank`);
+  if (!el) return;
+  if (coverUrl && coverUrl !== 'none') {
+    const img = document.createElement('img');
+    img.className = 'row-cover';
+    img.src = coverUrl;
+    img.alt = '';
+    img.loading = 'lazy';
+    el.replaceWith(img);
+  }
 }
 
 /* -------------------------------------------------- */
@@ -605,4 +732,5 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   applyFiltersAndRender();
+  fetchMissingCovers();
 });

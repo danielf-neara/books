@@ -115,7 +115,14 @@
     "notes": null,
     "cover_url": "https://covers.openlibrary.org/b/id/6714053-M.jpg",
     "date_added": null,
-    "id": "claude-rec-0006-4000-8000-000000000006"
+    "id": "claude-rec-0006-4000-8000-000000000006",
+    "genres": [
+      "Tennis players",
+      "Biography",
+      "Biography & Autobiography",
+      "Nonfiction"
+    ],
+    "summary": "He is one of the most beloved athletes in history and one of the most gifted men ever to step onto a tennis court – but from early childhood Andre Agassi hated the game."
   },
   {
     "title": "The Kill Artist",

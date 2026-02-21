@@ -22,28 +22,6 @@
     "summary": "He is one of the most beloved athletes in history and one of the most gifted men ever to step onto a tennis court â but from early childhood Andre Agassi hated the game."
   },
   {
-    "title": "The Kill Artist",
-    "author": "Daniel Silva",
-    "series": null,
-    "series_order": null,
-    "status": "reading_list",
-    "format": "audiobook",
-    "score": null,
-    "tags": [],
-    "recommended_by": "Jabes and Gav",
-    "notes": null,
-    "cover_url": "https://covers.openlibrary.org/b/id/227545-M.jpg",
-    "date_added": null,
-    "id": "2d4f6893-7afa-476a-901d-3cc2d44899f2",
-    "genres": [
-      "Art restorers",
-      "Fiction",
-      "Prevention",
-      "Terrorism"
-    ],
-    "summary": "From the #1 New York Times bestselling author of The Other Woman comes the first novel in the thrilling series featuring legendary assassin Gabriel Allon.  Immersed in the quiet, meticulous life of an art restorer, former Israeli intelligence operative Gabriel Allon keeps his past well behind him.  But now he is being called back into the gameÃÂ¢ÃÂÃÂand teamed with an agent who hides behind her own mask..."
-  },
-  {
     "title": "The Power of the Dog",
     "author": "Don Winslow",
     "series": null,
@@ -64,6 +42,28 @@
       "Fiction, thrillers, general"
     ],
     "summary": "'Breathtaking' JEREMY CLARKSON 'Winslow's masterpiece (so far) ...  should have a place on every crime freak's bookshelf.  Superb' INDEPENDENT ON SUNDAY _______________________ A brilliant page-turning thriller of power and revenge on the front lines of the drug war."
+  },
+  {
+    "title": "The Kill Artist",
+    "author": "Daniel Silva",
+    "series": null,
+    "series_order": null,
+    "status": "reading_list",
+    "format": "audiobook",
+    "score": null,
+    "tags": [],
+    "recommended_by": "Jabes and Gav",
+    "notes": null,
+    "cover_url": "https://covers.openlibrary.org/b/id/227545-M.jpg",
+    "date_added": null,
+    "id": "2d4f6893-7afa-476a-901d-3cc2d44899f2",
+    "genres": [
+      "Art restorers",
+      "Fiction",
+      "Prevention",
+      "Terrorism"
+    ],
+    "summary": "From the #1 New York Times bestselling author of The Other Woman comes the first novel in the thrilling series featuring legendary assassin Gabriel Allon.  Immersed in the quiet, meticulous life of an art restorer, former Israeli intelligence operative Gabriel Allon keeps his past well behind him.  But now he is being called back into the gameÃÂ¢ÃÂÃÂand teamed with an agent who hides behind her own mask..."
   },
   {
     "title": "The Pelican Brief",

@@ -60,9 +60,10 @@
           <div class="form-row">
             <label>Status
               <select id="f-status">
-                <option value="listened">Listened</option>
-                <option value="dnf">Did Not Finish</option>
-                <option value="want_to_listen">Want to Listen</option>
+                <option value="reading_list">Add to reading list</option>
+                <option value="in_progress">In progress</option>
+                <option value="completed">Completed</option>
+                <option value="dnf">Did not finish</option>
               </select>
             </label>
             <label>Format
@@ -126,8 +127,9 @@
         <div class="filter-bar">
           <select id="filter-status">
             <option value="">All</option>
-            <option value="listened">Listened</option>
-            <option value="want_to_listen">To Listen</option>
+            <option value="completed">Completed</option>
+            <option value="in_progress">In progress</option>
+            <option value="reading_list">Reading list</option>
             <option value="dnf">DNF</option>
           </select>
           <select id="filter-score">

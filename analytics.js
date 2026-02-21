@@ -51,7 +51,7 @@ function hideEl(el) { if (el) el.style.display = 'none'; }
 /* -------------------------------------------------- */
 
 function renderAnalytics(allBooks) {
-  const listened = allBooks.filter(b => b.status === 'listened');
+  const listened = allBooks.filter(b => b.status === 'completed');
   renderScoreChart(listened);
   renderTagsChart(listened);
   renderAuthorsChart(listened);

@@ -3,7 +3,7 @@
 /* -------------------------------------------------- */
 
 const STORAGE_KEY   = 'books_data';
-const MIGRATION_KEY = 'books_migrated_v4';
+const MIGRATION_KEY = 'books_migrated_v5';
 
 const TAG_LABELS = {
   hooked_immediately: 'Hooked immediately',
@@ -13,8 +13,7 @@ const TAG_LABELS = {
   funny:              'Funny',
 };
 
-// For sorting "want_to_listen" and "dnf" below listened books by score
-const STATUS_ORDER = ['listened', 'dnf', 'want_to_listen'];
+const STATUS_ORDER = ['completed', 'in_progress', 'dnf', 'reading_list'];
 
 /* -------------------------------------------------- */
 /* Rating -> score conversion (for migration) */
@@ -36,45 +35,45 @@ const RATING_TO_SCORE = {
 
 const SEED_BOOKS = [
   // Don Winslow -- City Trilogy
-  { title: 'City on Fire',    author: 'Don Winslow', series: 'City Trilogy', series_order: 1, format: 'audiobook', score: 9, status: 'listened', tags: [], notes: null, recommended_by: null, date_added: null },
-  { title: 'City of Dreams',  author: 'Don Winslow', series: 'City Trilogy', series_order: 2, format: 'audiobook', score: 9, status: 'listened', tags: [], notes: null, recommended_by: null, date_added: null },
-  { title: 'City in Ruins',   author: 'Don Winslow', series: 'City Trilogy', series_order: 3, format: 'audiobook', score: 9, status: 'listened', tags: [], notes: null, recommended_by: null, date_added: null },
+  { title: 'City on Fire',    author: 'Don Winslow', series: 'City Trilogy', series_order: 1, format: 'audiobook', score: 9, status: 'completed', tags: [], notes: null, recommended_by: null, date_added: null },
+  { title: 'City of Dreams',  author: 'Don Winslow', series: 'City Trilogy', series_order: 2, format: 'audiobook', score: 9, status: 'completed', tags: [], notes: null, recommended_by: null, date_added: null },
+  { title: 'City in Ruins',   author: 'Don Winslow', series: 'City Trilogy', series_order: 3, format: 'audiobook', score: 9, status: 'completed', tags: [], notes: null, recommended_by: null, date_added: null },
 
   // Dan Brown -- Robert Langdon
-  { title: 'Angels and Demons', author: 'Dan Brown', series: 'Robert Langdon', series_order: 1, format: 'audiobook', score: 7, status: 'listened', tags: [], notes: null, recommended_by: null, date_added: null },
-  { title: 'The Da Vinci Code', author: 'Dan Brown', series: 'Robert Langdon', series_order: 2, format: 'audiobook', score: 7, status: 'listened', tags: [], notes: null, recommended_by: null, date_added: null },
-  { title: 'The Lost Symbol',   author: 'Dan Brown', series: 'Robert Langdon', series_order: 3, format: 'audiobook', score: 7, status: 'listened', tags: [], notes: null, recommended_by: null, date_added: null },
+  { title: 'Angels and Demons', author: 'Dan Brown', series: 'Robert Langdon', series_order: 1, format: 'audiobook', score: 7, status: 'completed', tags: [], notes: null, recommended_by: null, date_added: null },
+  { title: 'The Da Vinci Code', author: 'Dan Brown', series: 'Robert Langdon', series_order: 2, format: 'audiobook', score: 7, status: 'completed', tags: [], notes: null, recommended_by: null, date_added: null },
+  { title: 'The Lost Symbol',   author: 'Dan Brown', series: 'Robert Langdon', series_order: 3, format: 'audiobook', score: 7, status: 'completed', tags: [], notes: null, recommended_by: null, date_added: null },
 
   // Matthew Reilly -- Jack West Jr
-  { title: 'Seven Ancient Wonders',        author: 'Matthew Reilly', series: 'Jack West Jr', series_order: 1, format: 'audiobook', score: 9, status: 'listened', tags: [], notes: null, recommended_by: null, date_added: null },
-  { title: 'Six Sacred Stones',            author: 'Matthew Reilly', series: 'Jack West Jr', series_order: 2, format: 'audiobook', score: 9, status: 'listened', tags: [], notes: null, recommended_by: null, date_added: null },
-  { title: 'The Five Greatest Warriors',   author: 'Matthew Reilly', series: 'Jack West Jr', series_order: 3, format: 'audiobook', score: 9, status: 'listened', tags: [], notes: null, recommended_by: null, date_added: null },
-  { title: 'The Four Legendary Kingdoms',  author: 'Matthew Reilly', series: 'Jack West Jr', series_order: 4, format: 'audiobook', score: 9, status: 'listened', tags: [], notes: null, recommended_by: null, date_added: null },
-  { title: 'The Three Secret Cities',      author: 'Matthew Reilly', series: 'Jack West Jr', series_order: 5, format: 'audiobook', score: 9, status: 'listened', tags: [], notes: null, recommended_by: null, date_added: null },
-  { title: 'The Two Lost Mountains',       author: 'Matthew Reilly', series: 'Jack West Jr', series_order: 6, format: 'audiobook', score: 9, status: 'listened', tags: [], notes: null, recommended_by: null, date_added: null },
-  { title: 'The One Impossible Labyrinth', author: 'Matthew Reilly', series: 'Jack West Jr', series_order: 7, format: 'audiobook', score: 9, status: 'listened', tags: [], notes: null, recommended_by: null, date_added: null },
+  { title: 'Seven Ancient Wonders',        author: 'Matthew Reilly', series: 'Jack West Jr', series_order: 1, format: 'audiobook', score: 9, status: 'completed', tags: [], notes: null, recommended_by: null, date_added: null },
+  { title: 'Six Sacred Stones',            author: 'Matthew Reilly', series: 'Jack West Jr', series_order: 2, format: 'audiobook', score: 9, status: 'completed', tags: [], notes: null, recommended_by: null, date_added: null },
+  { title: 'The Five Greatest Warriors',   author: 'Matthew Reilly', series: 'Jack West Jr', series_order: 3, format: 'audiobook', score: 9, status: 'completed', tags: [], notes: null, recommended_by: null, date_added: null },
+  { title: 'The Four Legendary Kingdoms',  author: 'Matthew Reilly', series: 'Jack West Jr', series_order: 4, format: 'audiobook', score: 9, status: 'completed', tags: [], notes: null, recommended_by: null, date_added: null },
+  { title: 'The Three Secret Cities',      author: 'Matthew Reilly', series: 'Jack West Jr', series_order: 5, format: 'audiobook', score: 9, status: 'completed', tags: [], notes: null, recommended_by: null, date_added: null },
+  { title: 'The Two Lost Mountains',       author: 'Matthew Reilly', series: 'Jack West Jr', series_order: 6, format: 'audiobook', score: 9, status: 'completed', tags: [], notes: null, recommended_by: null, date_added: null },
+  { title: 'The One Impossible Labyrinth', author: 'Matthew Reilly', series: 'Jack West Jr', series_order: 7, format: 'audiobook', score: 9, status: 'completed', tags: [], notes: null, recommended_by: null, date_added: null },
 
   // Matthew Reilly -- Scarecrow
-  { title: 'Ice Station',                       author: 'Matthew Reilly', series: 'Scarecrow', series_order: 1, format: 'audiobook', score: 6, status: 'listened', tags: [], notes: null, recommended_by: null, date_added: null },
-  { title: 'Area 7',                            author: 'Matthew Reilly', series: 'Scarecrow', series_order: 2, format: 'audiobook', score: 6, status: 'listened', tags: [], notes: null, recommended_by: null, date_added: null },
-  { title: 'Scarecrow',                         author: 'Matthew Reilly', series: 'Scarecrow', series_order: 3, format: 'audiobook', score: 6, status: 'listened', tags: [], notes: null, recommended_by: null, date_added: null },
-  { title: 'Hell Island',                       author: 'Matthew Reilly', series: 'Scarecrow', series_order: 4, format: 'audiobook', score: 6, status: 'listened', tags: [], notes: null, recommended_by: null, date_added: null },
-  { title: 'Scarecrow and the Army of Thieves', author: 'Matthew Reilly', series: 'Scarecrow', series_order: 5, format: 'audiobook', score: 6, status: 'listened', tags: [], notes: null, recommended_by: null, date_added: null },
+  { title: 'Ice Station',                       author: 'Matthew Reilly', series: 'Scarecrow', series_order: 1, format: 'audiobook', score: 6, status: 'completed', tags: [], notes: null, recommended_by: null, date_added: null },
+  { title: 'Area 7',                            author: 'Matthew Reilly', series: 'Scarecrow', series_order: 2, format: 'audiobook', score: 6, status: 'completed', tags: [], notes: null, recommended_by: null, date_added: null },
+  { title: 'Scarecrow',                         author: 'Matthew Reilly', series: 'Scarecrow', series_order: 3, format: 'audiobook', score: 6, status: 'completed', tags: [], notes: null, recommended_by: null, date_added: null },
+  { title: 'Hell Island',                       author: 'Matthew Reilly', series: 'Scarecrow', series_order: 4, format: 'audiobook', score: 6, status: 'completed', tags: [], notes: null, recommended_by: null, date_added: null },
+  { title: 'Scarecrow and the Army of Thieves', author: 'Matthew Reilly', series: 'Scarecrow', series_order: 5, format: 'audiobook', score: 6, status: 'completed', tags: [], notes: null, recommended_by: null, date_added: null },
 
   // Others
-  { title: 'Hostage',                        author: 'Eli Sharabi',             series: null, series_order: null, format: 'audiobook', score: 7,    status: 'listened', tags: [], notes: null,                              recommended_by: null, date_added: null },
-  { title: 'I Am Pilgrim',                   author: 'Terry Hayes',             series: null, series_order: null, format: 'audiobook', score: 9,    status: 'listened', tags: [], notes: null,                              recommended_by: null, date_added: null },
-  { title: 'Ready Player One',               author: 'Ernest Cline',            series: 'Ready Player', series_order: 1, format: 'audiobook', score: 9, status: 'listened', tags: [], notes: null,                    recommended_by: null, date_added: null },
-  { title: 'Ready Player Two',               author: 'Ernest Cline',            series: 'Ready Player', series_order: 2, format: 'audiobook', score: 5, status: 'listened', tags: [], notes: null,                    recommended_by: null, date_added: null },
-  { title: 'Kane and Abel',                  author: 'Jeffrey Archer',          series: null, series_order: null, format: 'audiobook', score: 9,    status: 'listened', tags: [], notes: null,                              recommended_by: null, date_added: null },
-  { title: 'The Fourth Estate',              author: 'Jeffrey Archer',          series: null, series_order: null, format: 'audiobook', score: 6,    status: 'listened', tags: [], notes: null,                              recommended_by: null, date_added: null },
-  { title: 'Greenlights',                    author: 'Matthew McConaughey',     series: null, series_order: null, format: 'audiobook', score: 9,    status: 'listened', tags: ['funny'], notes: 'Raucous Stories and Outlaw Wisdom', recommended_by: null, date_added: null },
-  { title: 'The Firm',                       author: 'John Grisham',            series: null, series_order: null, format: 'audiobook', score: 8,    status: 'listened', tags: [], notes: null,                              recommended_by: null, date_added: null },
-  { title: 'The Many Lives of Mama Love',    author: 'Lara Love Hardin',        series: null, series_order: null, format: 'audiobook', score: 7,    status: 'listened', tags: [], notes: null,                              recommended_by: null, date_added: null },
-  { title: 'A Knight of the Seven Kingdoms', author: 'George R.R. Martin',     series: null, series_order: null, format: 'audiobook', score: 6,    status: 'listened', tags: [], notes: null,                              recommended_by: null, date_added: null },
-  { title: 'Yearbook',                       author: 'Seth Rogen',              series: null, series_order: null, format: 'audiobook', score: 8,    status: 'listened', tags: ['funny'], notes: 'Hilarious',               recommended_by: null, date_added: null },
-  { title: 'Red Rising',                     author: 'Pierce Brown',            series: 'Red Rising', series_order: 1, format: 'audiobook', score: 3, status: 'listened', tags: [], notes: null,                      recommended_by: null, date_added: null },
-  { title: 'Exile',                          author: 'Richard North Patterson', series: null, series_order: null, format: 'audiobook', score: 9,    status: 'listened', tags: [], notes: null,                              recommended_by: null, date_added: null },
+  { title: 'Hostage',                        author: 'Eli Sharabi',             series: null, series_order: null, format: 'audiobook', score: 7,    status: 'completed', tags: [], notes: null,                              recommended_by: null, date_added: null },
+  { title: 'I Am Pilgrim',                   author: 'Terry Hayes',             series: null, series_order: null, format: 'audiobook', score: 9,    status: 'completed', tags: [], notes: null,                              recommended_by: null, date_added: null },
+  { title: 'Ready Player One',               author: 'Ernest Cline',            series: 'Ready Player', series_order: 1, format: 'audiobook', score: 9, status: 'completed', tags: [], notes: null,                    recommended_by: null, date_added: null },
+  { title: 'Ready Player Two',               author: 'Ernest Cline',            series: 'Ready Player', series_order: 2, format: 'audiobook', score: 5, status: 'completed', tags: [], notes: null,                    recommended_by: null, date_added: null },
+  { title: 'Kane and Abel',                  author: 'Jeffrey Archer',          series: null, series_order: null, format: 'audiobook', score: 9,    status: 'completed', tags: [], notes: null,                              recommended_by: null, date_added: null },
+  { title: 'The Fourth Estate',              author: 'Jeffrey Archer',          series: null, series_order: null, format: 'audiobook', score: 6,    status: 'completed', tags: [], notes: null,                              recommended_by: null, date_added: null },
+  { title: 'Greenlights',                    author: 'Matthew McConaughey',     series: null, series_order: null, format: 'audiobook', score: 9,    status: 'completed', tags: ['funny'], notes: 'Raucous Stories and Outlaw Wisdom', recommended_by: null, date_added: null },
+  { title: 'The Firm',                       author: 'John Grisham',            series: null, series_order: null, format: 'audiobook', score: 8,    status: 'completed', tags: [], notes: null,                              recommended_by: null, date_added: null },
+  { title: 'The Many Lives of Mama Love',    author: 'Lara Love Hardin',        series: null, series_order: null, format: 'audiobook', score: 7,    status: 'completed', tags: [], notes: null,                              recommended_by: null, date_added: null },
+  { title: 'A Knight of the Seven Kingdoms', author: 'George R.R. Martin',     series: null, series_order: null, format: 'audiobook', score: 6,    status: 'completed', tags: [], notes: null,                              recommended_by: null, date_added: null },
+  { title: 'Yearbook',                       author: 'Seth Rogen',              series: null, series_order: null, format: 'audiobook', score: 8,    status: 'completed', tags: ['funny'], notes: 'Hilarious',               recommended_by: null, date_added: null },
+  { title: 'Red Rising',                     author: 'Pierce Brown',            series: 'Red Rising', series_order: 1, format: 'audiobook', score: 3, status: 'completed', tags: [], notes: null,                      recommended_by: null, date_added: null },
+  { title: 'Exile',                          author: 'Richard North Patterson', series: null, series_order: null, format: 'audiobook', score: 9,    status: 'completed', tags: [], notes: null,                              recommended_by: null, date_added: null },
   { title: 'Sandstorm',                      author: 'James Rollins',           series: null, series_order: null, format: 'audiobook', score: null, status: 'dnf',      tags: [], notes: null,                              recommended_by: null, date_added: null },
   { title: 'The Templar Legacy',             author: 'Steve Berry',             series: null, series_order: null, format: 'audiobook', score: null, status: 'dnf',      tags: [], notes: '28% complete',                    recommended_by: null, date_added: null },
 ];
@@ -93,12 +92,14 @@ function loadFromStorage() {
     try {
       let books = JSON.parse(raw);
       if (!localStorage.getItem(MIGRATION_KEY)) {
+        const statusMap = { listened: 'completed', want_to_listen: 'reading_list' };
         books = books.map(b => {
-          // Derive status from old rating + finished fields
-          let status = b.status || 'listened';
+          let status = b.status || 'completed';
+          // Rename old status values
+          if (statusMap[status]) status = statusMap[status];
+          // Old rating=dnf → status=dnf
           if (b.rating === 'dnf') status = 'dnf';
 
-          // Convert old text rating to score
           const score = (b.score !== undefined && b.score !== null)
             ? b.score
             : (b.rating ? (RATING_TO_SCORE[b.rating] ?? null) : null);
@@ -106,11 +107,12 @@ function loadFromStorage() {
           return {
             recommended_by: null,
             tags: [],
+            cover_url: null,
             ...b,
             format: 'audiobook',
             status,
             score,
-            rating: undefined, // remove old field
+            rating: undefined,
             finished: undefined,
           };
         });
@@ -212,15 +214,15 @@ function applyFiltersAndRender() {
 /* -------------------------------------------------- */
 
 function updateStats() {
-  const listened = allBooks.filter(b => b.status === 'listened');
-  const scores   = listened.map(b => b.score).filter(s => s !== null && s !== undefined);
-  const avg      = scores.length
+  const completed = allBooks.filter(b => b.status === 'completed');
+  const scores    = completed.map(b => b.score).filter(s => s !== null && s !== undefined);
+  const avg       = scores.length
     ? (scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(1)
     : '--';
 
-  document.getElementById('stat-total').textContent = listened.length;
+  document.getElementById('stat-total').textContent = completed.length;
   document.getElementById('stat-avg').textContent   = avg;
-  document.getElementById('stat-queue').textContent = allBooks.filter(b => b.status === 'want_to_listen').length;
+  document.getElementById('stat-queue').textContent = allBooks.filter(b => b.status === 'reading_list').length;
 }
 
 /* -------------------------------------------------- */
@@ -252,8 +254,9 @@ function formatDate(dateStr) {
 }
 
 function bookCardHTML(book) {
-  const isQueue = book.status === 'want_to_listen';
-  const isDnf   = book.status === 'dnf';
+  const isQueue      = book.status === 'reading_list';
+  const isInProgress = book.status === 'in_progress';
+  const isDnf        = book.status === 'dnf';
   const seriesText = book.series
     ? `${book.series}${book.series_order ? ' #' + book.series_order : ''}`
     : '';
@@ -262,7 +265,9 @@ function bookCardHTML(book) {
 
   let scoreBadge;
   if (isQueue) {
-    scoreBadge = `<span class="badge badge-queue">To Listen</span>`;
+    scoreBadge = `<span class="badge badge-queue">Reading list</span>`;
+  } else if (isInProgress) {
+    scoreBadge = `<span class="badge badge-in-progress">In progress</span>`;
   } else if (isDnf) {
     scoreBadge = `<span class="badge badge-dnf">DNF</span>`;
   } else if (book.score !== null && book.score !== undefined) {
@@ -280,7 +285,7 @@ function bookCardHTML(book) {
     : `<div class="book-cover book-cover-blank">${escHtml((book.title || '?')[0].toUpperCase())}</div>`;
 
   return `
-    <div class="book-card${isQueue ? ' book-card-queue' : ''}${isDnf ? ' book-card-dnf' : ''}" data-id="${book.id}">
+    <div class="book-card${isQueue ? ' book-card-queue' : ''}${isInProgress ? ' book-card-in-progress' : ''}${isDnf ? ' book-card-dnf' : ''}" data-id="${book.id}">
       ${coverHtml}
       <div class="book-main">
         <div class="book-title">${escHtml(book.title)}</div>
@@ -308,7 +313,7 @@ function bookCardHTML(book) {
 
 function updateFormSections() {
   const status = document.getElementById('f-status').value;
-  const showScore = status === 'listened';
+  const showScore = status === 'completed';
   document.getElementById('score-section').classList.toggle('hidden', !showScore);
   document.getElementById('no-score-section').classList.toggle('hidden', showScore);
 }
@@ -366,12 +371,12 @@ function handleFormSubmit(e) {
   const scoreRaw = document.getElementById('f-score').value;
   const score = scoreRaw !== '' ? Math.round(parseFloat(scoreRaw)) : null;
 
-  if (status === 'listened' && score === null) {
+  if (status === 'completed' && score === null) {
     alert('Please enter a score.');
     return;
   }
 
-  const isScored = status === 'listened';
+  const isScored = status === 'completed';
 
   const tags = isScored
     ? [...document.querySelectorAll('input[name="tag"]:checked')].map(cb => cb.value)

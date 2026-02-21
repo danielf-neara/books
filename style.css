@@ -387,8 +387,9 @@ button:hover { opacity: 0.85; }
   flex-shrink: 0;
 }
 
-.book-card-queue { border-left: 3px solid var(--btn-primary); opacity: 0.85; }
-.book-card-dnf   { opacity: 0.6; }
+.book-card-queue       { border-left: 3px solid var(--btn-primary); opacity: 0.85; }
+.book-card-in-progress { border-left: 3px solid #1a6b4a; }
+.book-card-dnf         { opacity: 0.6; }
 
 .book-main { min-width: 0; }
 
@@ -440,9 +441,10 @@ button:hover { opacity: 0.85; }
   text-transform: uppercase;
 }
 
-.badge-queue  { background: var(--btn-primary); color: #fff; }
-.badge-dnf    { background: var(--score-dnf); color: #fff; }
-.badge-format { background: #eee; color: #555; }
+.badge-queue       { background: var(--btn-primary); color: #fff; }
+.badge-in-progress { background: #1a6b4a; color: #fff; }
+.badge-dnf         { background: var(--score-dnf); color: #fff; }
+.badge-format      { background: #eee; color: #555; }
 
 /* Experience tags */
 .book-tags {

@@ -34,7 +34,14 @@
     "notes": null,
     "cover_url": "https://covers.openlibrary.org/b/id/10578479-M.jpg",
     "date_added": null,
-    "id": "claude-rec-0002-4000-8000-000000000002"
+    "id": "claude-rec-0002-4000-8000-000000000002",
+    "genres": [
+      "White House Chief of Staff",
+      "Central Intelligence Agency",
+      "law firms",
+      "legal briefs"
+    ],
+    "summary": "Two Supreme Court Justices are dead, their murders unsolved.  But one woman might have found the answer.  Darby Shaw is a brilliant New Orleans legal student with a sharp political mind."
   },
   {
     "title": "American Assassin",
@@ -116,7 +123,7 @@
       "Prevention",
       "Terrorism"
     ],
-    "summary": "From the #1 New York Times bestselling author of The Other Woman comes the first novel in the thrilling series featuring legendary assassin Gabriel Allon.  Immersed in the quiet, meticulous life of an art restorer, former Israeli intelligence operative Gabriel Allon keeps his past well behind him.  But now he is being called back into the gameâand teamed with an agent who hides behind her own mask..."
+    "summary": "From the #1 New York Times bestselling author of The Other Woman comes the first novel in the thrilling series featuring legendary assassin Gabriel Allon.  Immersed in the quiet, meticulous life of an art restorer, former Israeli intelligence operative Gabriel Allon keeps his past well behind him.  But now he is being called back into the gameÃ¢ÂÂand teamed with an agent who hides behind her own mask..."
   },
   {
     "recommended_by": "Gav",
@@ -158,7 +165,7 @@
       "American literature",
       "New York Times bestseller"
     ],
-    "summary": "New York Times Bestseller!  From the #1 internationally bestselling author of the Cartel Trilogy (The Power of the Dog, The Cartel, and The Border), The Force, and Broken comes the first novel in an epic new trilogy.  “Superb."
+    "summary": "New York Times Bestseller!  From the #1 internationally bestselling author of the Cartel Trilogy (The Power of the Dog, The Cartel, and The Border), The Force, and Broken comes the first novel in an epic new trilogy.  âSuperb."
   },
   {
     "recommended_by": "Jabes",

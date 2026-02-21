@@ -56,7 +56,14 @@
     "notes": null,
     "cover_url": "https://covers.openlibrary.org/b/id/6581609-M.jpg",
     "date_added": null,
-    "id": "claude-rec-0003-4000-8000-000000000003"
+    "id": "claude-rec-0003-4000-8000-000000000003",
+    "genres": [
+      "New York Times bestseller",
+      "Terrorism",
+      "Fiction",
+      "Prevention"
+    ],
+    "summary": "#1 New York Times bestselling author Vince Flynn introduces the young Mitch Ra pp on his first assignment, a mission of vengeance that made him a CIA superagent. Two decades after the Cold War, Islamic terrorism is on the rise, and CIA Operations Director Thomas Stansfield forms a new group of clandestine operatives—men who do not exist—to meet this burgeoning threat abroad before it reaches America’s shores.  Stansfield’s protégée, Irene Kennedy, finds the ideal candidate in the wake of the Pan Am Lockerbie terrorist attack."
   },
   {
     "title": "The Day of the Jackal",

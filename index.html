@@ -34,13 +34,17 @@
         <form id="book-form" class="hidden">
           <h2 id="form-title">Add</h2>
           <input type="hidden" id="edit-id">
+        <input type="hidden" id="f-cover-url">
 
           <div class="form-row">
-            <label>Title *
-              <input type="text" id="f-title" placeholder="Title" required>
-            </label>
+            <div class="title-field">
+              <label>Title *
+                <input type="text" id="f-title" placeholder="Title" required autocomplete="off">
+              </label>
+              <div id="book-suggestions" class="hidden"></div>
+            </div>
             <label>Author *
-              <input type="text" id="f-author" placeholder="Author" required>
+              <input type="text" id="f-author" placeholder="Auto-filled or type manually" required>
             </label>
           </div>
 

@@ -275,8 +275,13 @@ function bookCardHTML(book) {
     ? `<span class="badge badge-format">Audiobook</span>`
     : `<span class="badge badge-format">Book</span>`;
 
+  const coverHtml = book.cover_url
+    ? `<img class="book-cover" src="${book.cover_url}" alt="" loading="lazy">`
+    : `<div class="book-cover book-cover-blank">${escHtml((book.title || '?')[0].toUpperCase())}</div>`;
+
   return `
     <div class="book-card${isQueue ? ' book-card-queue' : ''}${isDnf ? ' book-card-dnf' : ''}" data-id="${book.id}">
+      ${coverHtml}
       <div class="book-main">
         <div class="book-title">${escHtml(book.title)}</div>
         <div class="book-author">${escHtml(book.author)}</div>
@@ -341,6 +346,7 @@ function startEdit(id) {
   document.getElementById('f-date').value           = book.date_added || '';
   document.getElementById('f-notes').value          = book.notes || '';
   document.getElementById('f-notes-2').value        = book.notes || '';
+  document.getElementById('f-cover-url').value      = book.cover_url || '';
 
   // Set tag checkboxes
   document.querySelectorAll('input[name="tag"]').forEach(cb => {
@@ -390,6 +396,7 @@ function handleFormSubmit(e) {
     tags,
     recommended_by,
     notes,
+    cover_url:      document.getElementById('f-cover-url').value || null,
     date_added:     isScored ? (document.getElementById('f-date').value || null) : null,
   };
 
@@ -426,6 +433,74 @@ function exportBooks() {
   const a    = Object.assign(document.createElement('a'), { href: url, download: 'books-export.json' });
   a.click();
   URL.revokeObjectURL(url);
+}
+
+/* -------------------------------------------------- */
+/* Book lookup (Open Library) */
+/* -------------------------------------------------- */
+
+let lookupTimeout = null;
+
+async function searchOpenLibrary(query) {
+  const url = `https://openlibrary.org/search.json?title=${encodeURIComponent(query)}&limit=6&fields=title,author_name,series,series_number,cover_i`;
+  try {
+    const res  = await fetch(url);
+    const data = await res.json();
+    return data.docs || [];
+  } catch {
+    return [];
+  }
+}
+
+function showSuggestions(results) {
+  const box = document.getElementById('book-suggestions');
+  box.innerHTML = '';
+
+  if (!results.length) {
+    box.classList.add('hidden');
+    return;
+  }
+
+  results.forEach(book => {
+    const title    = book.title || '';
+    const author   = (book.author_name  || [])[0] || '';
+    const series   = (book.series       || [])[0] || '';
+    const seriesNo = (book.series_number|| [])[0] || '';
+
+    const coverId  = book.cover_i || null;
+    const coverUrl = coverId ? `https://covers.openlibrary.org/b/id/${coverId}-S.jpg` : null;
+
+    const item = document.createElement('div');
+    item.className = 'suggestion-item';
+    item.innerHTML = `
+      ${coverUrl ? `<img class="suggestion-cover" src="${coverUrl}" alt="" loading="lazy">` : '<div class="suggestion-cover suggestion-cover-blank"></div>'}
+      <div>
+        <div class="suggestion-title">${escHtml(title)}</div>
+        <div class="suggestion-meta">${escHtml(author)}${series ? ` &middot; ${escHtml(series)}${seriesNo ? ' #' + parseInt(seriesNo) : ''}` : ''}</div>
+      </div>`;
+
+    const medCoverUrl = coverId ? `https://covers.openlibrary.org/b/id/${coverId}-M.jpg` : null;
+
+    item.addEventListener('mousedown', e => {
+      e.preventDefault();
+      document.getElementById('f-title').value        = title;
+      document.getElementById('f-author').value       = author;
+      document.getElementById('f-series').value       = series;
+      document.getElementById('f-series-order').value = seriesNo ? parseInt(seriesNo) || '' : '';
+      // Store cover URL in a hidden field for form submission
+      document.getElementById('f-cover-url').value   = medCoverUrl || '';
+      closeSuggestions();
+      document.getElementById('f-score').focus();
+    });
+
+    box.appendChild(item);
+  });
+
+  box.classList.remove('hidden');
+}
+
+function closeSuggestions() {
+  document.getElementById('book-suggestions').classList.add('hidden');
 }
 
 /* -------------------------------------------------- */
@@ -470,6 +545,22 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.getElementById('export-btn').addEventListener('click', exportBooks);
+
+  // Title lookup
+  const titleInput = document.getElementById('f-title');
+  titleInput.addEventListener('input', () => {
+    clearTimeout(lookupTimeout);
+    const q = titleInput.value.trim();
+    if (q.length < 3) { closeSuggestions(); return; }
+    lookupTimeout = setTimeout(async () => {
+      const results = await searchOpenLibrary(q);
+      showSuggestions(results);
+    }, 350);
+  });
+  titleInput.addEventListener('blur', () => {
+    // Small delay so mousedown on a suggestion fires first
+    setTimeout(closeSuggestions, 150);
+  });
 
   // Tab switching
   document.querySelectorAll('.tab-btn').forEach(btn => {

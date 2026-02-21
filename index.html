@@ -12,7 +12,7 @@
     <h1>Book Tracker</h1>
     <div id="stats-strip">
       <span class="stat"><span id="stat-total">--</span> listened</span>
-      <span class="stat"><span id="stat-loved">--</span> loved</span>
+      <span class="stat">avg <span id="stat-avg">--</span></span>
       <span class="stat"><span id="stat-queue">--</span> to listen</span>
       <button id="export-btn" class="btn-export" title="Export books to JSON">Export</button>
     </div>
@@ -20,7 +20,7 @@
 
   <main>
 
-    <!-- Add Book -->
+    <!-- Add / Edit form -->
     <section id="add-section">
       <button id="toggle-form-btn" class="btn-primary">+ Add</button>
 
@@ -39,7 +39,7 @@
 
         <div class="form-row">
           <label>Series
-            <input type="text" id="f-series" placeholder="Series name (optional)">
+            <input type="text" id="f-series" placeholder="Series name">
           </label>
           <label># in series
             <input type="number" id="f-series-order" placeholder="e.g. 1" min="1">
@@ -50,42 +50,60 @@
           <label>Status
             <select id="f-status">
               <option value="listened">Listened</option>
+              <option value="dnf">Did Not Finish</option>
               <option value="want_to_listen">Want to Listen</option>
             </select>
           </label>
-          <label>Recommended by
-            <input type="text" id="f-recommended-by" placeholder="e.g. Claude, Dan">
-          </label>
-        </div>
-
-        <div class="form-row">
           <label>Format
             <select id="f-format">
               <option value="audiobook">Audiobook</option>
               <option value="book">Book</option>
             </select>
           </label>
-          <label id="rating-label">Rating
-            <select id="f-rating">
-              <option value="">-- select --</option>
-              <option value="loved">Loved</option>
-              <option value="great">Great</option>
-              <option value="very_good">Very Good</option>
-              <option value="decent">Decent</option>
-              <option value="average">Average</option>
-              <option value="disliked">Disliked</option>
-              <option value="dnf">DNF (Did Not Finish)</option>
-            </select>
-          </label>
         </div>
 
-        <div class="form-row" id="listened-fields">
-          <label>Date finished
-            <input type="date" id="f-date">
-          </label>
-          <label>Notes
-            <input type="text" id="f-notes" placeholder="Optional notes">
-          </label>
+        <!-- Score + tags: shown only when status = listened -->
+        <div id="score-section">
+          <div class="form-row">
+            <label>Score / 10
+              <input type="number" id="f-score" min="1" max="10" step="1" placeholder="1 – 10">
+            </label>
+            <label>Recommended by
+              <input type="text" id="f-recommended-by" placeholder="e.g. Claude, a friend">
+            </label>
+          </div>
+
+          <div class="tags-section">
+            <span class="tags-label">How was it?</span>
+            <div class="tags-grid">
+              <label class="tag-check"><input type="checkbox" name="tag" value="hooked_immediately"> Hooked immediately</label>
+              <label class="tag-check"><input type="checkbox" name="tag" value="slow_start"> Slow start, got better</label>
+              <label class="tag-check"><input type="checkbox" name="tag" value="couldnt_put_down"> Couldn't put it down</label>
+              <label class="tag-check"><input type="checkbox" name="tag" value="edge_of_seat"> Edge of my seat</label>
+              <label class="tag-check"><input type="checkbox" name="tag" value="funny"> Funny</label>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label>Date finished
+              <input type="date" id="f-date">
+            </label>
+            <label>Notes
+              <input type="text" id="f-notes" placeholder="Optional notes">
+            </label>
+          </div>
+        </div>
+
+        <!-- Recommended by only (shown for DNF + want to listen) -->
+        <div id="no-score-section" class="hidden">
+          <div class="form-row">
+            <label>Recommended by
+              <input type="text" id="f-recommended-by-2" placeholder="e.g. Claude, a friend">
+            </label>
+            <label>Notes
+              <input type="text" id="f-notes-2" placeholder="Optional notes">
+            </label>
+          </div>
         </div>
 
         <div class="form-actions">
@@ -102,17 +120,16 @@
           <option value="">All</option>
           <option value="listened">Listened</option>
           <option value="want_to_listen">To Listen</option>
+          <option value="dnf">DNF</option>
         </select>
 
-        <select id="filter-rating">
-          <option value="">All ratings</option>
-          <option value="loved">Loved</option>
-          <option value="great">Great</option>
-          <option value="very_good">Very Good</option>
-          <option value="decent">Decent</option>
-          <option value="average">Average</option>
-          <option value="disliked">Disliked</option>
-          <option value="dnf">DNF</option>
+        <select id="filter-score">
+          <option value="">All scores</option>
+          <option value="9">9+ </option>
+          <option value="8">8+</option>
+          <option value="7">7+</option>
+          <option value="6">6+</option>
+          <option value="below6">Below 6</option>
         </select>
 
         <select id="filter-format">
@@ -122,15 +139,15 @@
         </select>
 
         <select id="sort-by">
+          <option value="score">Score</option>
           <option value="date_added">Recently added</option>
-          <option value="rating">Rating</option>
           <option value="author">Author</option>
           <option value="title">Title</option>
         </select>
       </div>
     </section>
 
-    <!-- Book List -->
+    <!-- Book list -->
     <section id="books-section">
       <div id="book-list"></div>
     </section>

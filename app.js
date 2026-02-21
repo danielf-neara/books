@@ -258,57 +258,78 @@ function formatDate(dateStr) {
 }
 
 function bookCardHTML(book) {
-  const isQueue      = book.status === 'reading_list';
+  const id           = book.id;
   const isInProgress = book.status === 'in_progress';
+  const isQueue      = book.status === 'reading_list';
   const isDnf        = book.status === 'dnf';
+
   const seriesText = book.series
     ? `${book.series}${book.series_order ? ' #' + book.series_order : ''}`
     : '';
   const date = formatDate(book.date_added);
   const tags = (book.tags || []).map(t => `<span class="tag">${TAG_LABELS[t] || t}</span>`).join('');
 
-  let scoreBadge;
-  if (isQueue) {
-    scoreBadge = `<span class="badge badge-queue">Reading list</span>`;
-  } else if (isInProgress) {
-    scoreBadge = `<span class="badge badge-in-progress">In progress</span>`;
+  let indicator;
+  if (isInProgress) {
+    indicator = `<span class="row-dot"></span>`;
+  } else if (isQueue) {
+    indicator = `<span class="row-status-pill pill-reading-list">List</span>`;
   } else if (isDnf) {
-    scoreBadge = `<span class="badge badge-dnf">DNF</span>`;
+    indicator = `<span class="row-status-pill pill-dnf">DNF</span>`;
   } else if (book.score !== null && book.score !== undefined) {
-    scoreBadge = `<span class="score-badge ${scoreClass(book.score)}">${book.score}<span class="score-denom">/10</span></span>`;
+    indicator = `<span class="row-score ${scoreClass(book.score)}">${book.score}</span>`;
   } else {
-    scoreBadge = `<span class="badge badge-dnf">No score</span>`;
+    indicator = '';
   }
 
-  const formatBadge = book.format === 'audiobook'
-    ? `<span class="badge badge-format">Audiobook</span>`
-    : `<span class="badge badge-format">Book</span>`;
+  const coverEl = book.cover_url
+    ? `<img class="row-cover" src="${book.cover_url}" alt="" loading="lazy">`
+    : `<div class="row-cover row-cover-blank">${escHtml((book.title || '?')[0].toUpperCase())}</div>`;
 
-  const coverHtml = book.cover_url
-    ? `<img class="book-cover" src="${book.cover_url}" alt="" loading="lazy">`
-    : `<div class="book-cover book-cover-blank">${escHtml((book.title || '?')[0].toUpperCase())}</div>`;
+  const metaParts = [];
+  if (seriesText)          metaParts.push(escHtml(seriesText));
+  if (book.format)         metaParts.push(book.format === 'audiobook' ? 'Audiobook' : 'Book');
+  if (date)                metaParts.push(date);
+  if (book.recommended_by) metaParts.push('Rec. ' + escHtml(book.recommended_by));
 
   return `
-    <div class="book-card${isQueue ? ' book-card-queue' : ''}${isInProgress ? ' book-card-in-progress' : ''}${isDnf ? ' book-card-dnf' : ''}" data-id="${book.id}">
-      ${coverHtml}
-      <div class="book-main">
-        <div class="book-title">${escHtml(book.title)}</div>
-        <div class="book-author">${escHtml(book.author)}</div>
-        ${seriesText ? `<div class="book-series">${escHtml(seriesText)}</div>` : ''}
-        <div class="book-meta">
-          ${scoreBadge}
-          ${formatBadge}
-          ${date ? `<span class="book-date">${date}</span>` : ''}
-          ${book.recommended_by ? `<span class="book-rec">rec. ${escHtml(book.recommended_by)}</span>` : ''}
+    <div class="book-row${isInProgress ? ' row-in-progress' : ''}" data-id="${id}">
+      <div class="book-row-main" onclick="toggleRow('${id}')">
+        ${coverEl}
+        <div class="row-info">
+          <div class="row-title">${escHtml(book.title)}</div>
+          <div class="row-author">${escHtml(book.author)}</div>
         </div>
-        ${tags ? `<div class="book-tags">${tags}</div>` : ''}
-        ${book.notes ? `<div class="book-notes">${escHtml(book.notes)}</div>` : ''}
+        ${indicator}
+        <span class="row-chevron">›</span>
       </div>
-      <div class="book-actions">
-        <button class="btn-icon" onclick="startEdit('${book.id}')">Edit</button>
-        <button class="btn-icon" onclick="promptDelete('${book.id}', '${escAttr(book.title)}')">Del</button>
+      <div class="book-detail">
+        <div class="detail-inner">
+          <div class="detail-content">
+            ${metaParts.length ? `<div class="detail-meta">${metaParts.join(' · ')}</div>` : ''}
+            ${tags ? `<div class="book-tags">${tags}</div>` : ''}
+            ${book.notes ? `<div class="detail-notes">${escHtml(book.notes)}</div>` : ''}
+            <div class="detail-actions">
+              <button class="btn-row-action" onclick="event.stopPropagation(); startEdit('${id}')">Edit</button>
+              <button class="btn-row-action danger" onclick="event.stopPropagation(); promptDelete('${id}', '${escAttr(book.title)}')">Delete</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>`;
+}
+
+/* -------------------------------------------------- */
+/* Row expand / collapse */
+/* -------------------------------------------------- */
+
+function toggleRow(id) {
+  const row = document.querySelector(`.book-row[data-id="${id}"]`);
+  if (!row) return;
+  const isExpanding = !row.classList.contains('expanded');
+  // Collapse all others
+  document.querySelectorAll('.book-row.expanded').forEach(r => r.classList.remove('expanded'));
+  if (isExpanding) row.classList.add('expanded');
 }
 
 /* -------------------------------------------------- */

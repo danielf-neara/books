@@ -781,7 +781,11 @@ button:active { opacity: 0.75; }
   max-width: 460px;
   overflow: hidden;
   box-shadow: 0 12px 40px rgba(0,0,0,0.2);
-  position: relative;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
 }
 
 #shelf-dialog::backdrop { background: rgba(0,0,0,0.5); }

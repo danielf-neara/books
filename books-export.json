@@ -1,5 +1,27 @@
 [
   {
+    "title": "Open",
+    "author": "Andre Agassi",
+    "series": null,
+    "series_order": null,
+    "status": "reading_list",
+    "format": "audiobook",
+    "score": null,
+    "tags": [],
+    "recommended_by": "Claude",
+    "notes": null,
+    "cover_url": "https://covers.openlibrary.org/b/id/6714053-M.jpg",
+    "date_added": null,
+    "id": "claude-rec-0006-4000-8000-000000000006",
+    "genres": [
+      "Tennis players",
+      "Biography",
+      "Biography & Autobiography",
+      "Nonfiction"
+    ],
+    "summary": "He is one of the most beloved athletes in history and one of the most gifted men ever to step onto a tennis court â but from early childhood Andre Agassi hated the game."
+  },
+  {
     "title": "The Power of the Dog",
     "author": "Don Winslow",
     "series": null,
@@ -63,7 +85,7 @@
       "Fiction",
       "Prevention"
     ],
-    "summary": "#1 New York Times bestselling author Vince Flynn introduces the young Mitch Ra pp on his first assignment, a mission of vengeance that made him a CIA superagent. Two decades after the Cold War, Islamic terrorism is on the rise, and CIA Operations Director Thomas Stansfield forms a new group of clandestine operatives—men who do not exist—to meet this burgeoning threat abroad before it reaches America’s shores.  Stansfield’s protégée, Irene Kennedy, finds the ideal candidate in the wake of the Pan Am Lockerbie terrorist attack."
+    "summary": "#1 New York Times bestselling author Vince Flynn introduces the young Mitch Ra pp on his first assignment, a mission of vengeance that made him a CIA superagent. Two decades after the Cold War, Islamic terrorism is on the rise, and CIA Operations Director Thomas Stansfield forms a new group of clandestine operativesâmen who do not existâto meet this burgeoning threat abroad before it reaches Americaâs shores.  Stansfieldâs protÃ©gÃ©e, Irene Kennedy, finds the ideal candidate in the wake of the Pan Am Lockerbie terrorist attack."
   },
   {
     "title": "The Day of the Jackal",
@@ -103,28 +125,6 @@
     "id": "claude-rec-0005-4000-8000-000000000005"
   },
   {
-    "title": "Open",
-    "author": "Andre Agassi",
-    "series": null,
-    "series_order": null,
-    "status": "reading_list",
-    "format": "audiobook",
-    "score": null,
-    "tags": [],
-    "recommended_by": "Claude",
-    "notes": null,
-    "cover_url": "https://covers.openlibrary.org/b/id/6714053-M.jpg",
-    "date_added": null,
-    "id": "claude-rec-0006-4000-8000-000000000006",
-    "genres": [
-      "Tennis players",
-      "Biography",
-      "Biography & Autobiography",
-      "Nonfiction"
-    ],
-    "summary": "He is one of the most beloved athletes in history and one of the most gifted men ever to step onto a tennis court – but from early childhood Andre Agassi hated the game."
-  },
-  {
     "title": "The Kill Artist",
     "author": "Daniel Silva",
     "series": null,
@@ -144,7 +144,7 @@
       "Prevention",
       "Terrorism"
     ],
-    "summary": "From the #1 New York Times bestselling author of The Other Woman comes the first novel in the thrilling series featuring legendary assassin Gabriel Allon.  Immersed in the quiet, meticulous life of an art restorer, former Israeli intelligence operative Gabriel Allon keeps his past well behind him.  But now he is being called back into the gameÃ¢ÂÂand teamed with an agent who hides behind her own mask..."
+    "summary": "From the #1 New York Times bestselling author of The Other Woman comes the first novel in the thrilling series featuring legendary assassin Gabriel Allon.  Immersed in the quiet, meticulous life of an art restorer, former Israeli intelligence operative Gabriel Allon keeps his past well behind him.  But now he is being called back into the gameÃÂ¢ÃÂÃÂand teamed with an agent who hides behind her own mask..."
   },
   {
     "recommended_by": "Gav",
@@ -186,7 +186,7 @@
       "American literature",
       "New York Times bestseller"
     ],
-    "summary": "New York Times Bestseller!  From the #1 internationally bestselling author of the Cartel Trilogy (The Power of the Dog, The Cartel, and The Border), The Force, and Broken comes the first novel in an epic new trilogy.  âSuperb."
+    "summary": "New York Times Bestseller!  From the #1 internationally bestselling author of the Cartel Trilogy (The Power of the Dog, The Cartel, and The Border), The Force, and Broken comes the first novel in an epic new trilogy.  Ã¢ÂÂSuperb."
   },
   {
     "recommended_by": "Jabes",
@@ -720,7 +720,7 @@
     "id": "1b240b4e-c22b-4428-84ba-f1be875077b5",
     "date_added": null,
     "score": 3,
-    "summary": "The first novel of Pierce Brown’s iconic, New York Times bestselling Red Rising Saga, now in a stunning deluxe hardcover edition, featuring: • Illustrated slipcase with foil • Designed sprayed edges • New cover and full wrap-around book case art • Fold-out poster • Full-color illustrated endpapers with a new map Darrow is a Red, a member of the lowest caste in the color-coded society of the future.  Like his fellow Reds, he works all day, believing that he and his people are making the surface of Mars livable for future generations.  Yet he toils willingly, trusting that his blood and sweat will one day result in a better world for his children.",
+    "summary": "The first novel of Pierce Brownâs iconic, New York Times bestselling Red Rising Saga, now in a stunning deluxe hardcover edition, featuring: â¢ Illustrated slipcase with foil â¢ Designed sprayed edges â¢ New cover and full wrap-around book case art â¢ Fold-out poster â¢ Full-color illustrated endpapers with a new map Darrow is a Red, a member of the lowest caste in the color-coded society of the future.  Like his fellow Reds, he works all day, believing that he and his people are making the surface of Mars livable for future generations.  Yet he toils willingly, trusting that his blood and sweat will one day result in a better world for his children.",
     "genres": [
       "franchise:Red Rising",
       "series:Red Rising Trilogy",
@@ -747,7 +747,7 @@
       "Jews",
       "Terrorists",
       "Palestinian Arabs",
-      "Judíos"
+      "JudÃ­os"
     ]
   },
   {

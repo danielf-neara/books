@@ -250,7 +250,7 @@ function renderBooks(books) {
 
   if (showSections) {
     list.innerHTML =
-      section('Now Playing', inProgress) +
+      section('In Progress', inProgress) +
       section('Completed', completed) +
       (other.length ? section('Other', other) : '');
   } else {

@@ -193,8 +193,12 @@ function applyFiltersAndRender() {
   if (format) books = books.filter(b => b.format === format);
 
   books.sort((a, b) => {
+    // In progress always floats to top regardless of sort
+    const aIn = a.status === 'in_progress' ? 0 : 1;
+    const bIn = b.status === 'in_progress' ? 0 : 1;
+    if (aIn !== bIn) return aIn - bIn;
+
     if (sortBy === 'score') {
-      // Listened first, then by score desc, then DNF, then queue
       const sa = STATUS_ORDER.indexOf(a.status);
       const sb = STATUS_ORDER.indexOf(b.status);
       if (sa !== sb) return sa - sb;

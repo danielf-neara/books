@@ -2,8 +2,9 @@
 /* Constants */
 /* -------------------------------------------------- */
 
-const STORAGE_KEY   = 'books_data';
-const MIGRATION_KEY = 'books_migrated_v7';
+const STORAGE_KEY         = 'books_data';
+const MIGRATION_KEY       = 'books_migrated_v7';
+const MIGRATION_GOOGLE    = 'books_migrated_google_summaries';
 
 const TAG_LABELS = {
   hooked_immediately: 'Hooked immediately',
@@ -243,6 +244,12 @@ function loadFromStorage() {
         });
         localStorage.setItem(STORAGE_KEY, JSON.stringify(books));
         localStorage.setItem(MIGRATION_KEY, '1');
+      }
+      // Reset empty-string summaries from old Wikipedia fetch so Google Books re-fetches them
+      if (!localStorage.getItem(MIGRATION_GOOGLE)) {
+        books = books.map(b => ({ ...b, summary: b.summary === '' ? null : b.summary }));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(books));
+        localStorage.setItem(MIGRATION_GOOGLE, '1');
       }
       return books;
     } catch { /* fall through */ }

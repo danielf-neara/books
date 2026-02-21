@@ -131,7 +131,7 @@
       "Sporting goods industry",
       "Businesspeople"
     ],
-    "summary": ""
+    "summary": null
   },
   {
     "recommended_by": "Jabes",
@@ -151,7 +151,7 @@
       "American literature",
       "New York Times bestseller"
     ],
-    "summary": ""
+    "summary": null
   },
   {
     "recommended_by": "Jabes",
@@ -170,7 +170,7 @@
     "genres": [
       "New York Times bestseller"
     ],
-    "summary": ""
+    "summary": null
   },
   {
     "recommended_by": "Jabes",
@@ -222,7 +222,7 @@
     "id": "f017ad5f-d260-4539-a47a-d76ea46b8bb0",
     "date_added": null,
     "score": 7,
-    "summary": "",
+    "summary": null,
     "genres": [
       "Suspense & Thriller",
       "Spiritual Fiction",
@@ -352,7 +352,7 @@
     "id": "1a23ed6f-58a8-435b-9017-3cf95ecc414c",
     "date_added": null,
     "score": 9,
-    "summary": "",
+    "summary": null,
     "genres": []
   },
   {
@@ -517,7 +517,7 @@
     "id": "dbd51b5b-4594-4b05-bb09-dbc7c2893c15",
     "date_added": null,
     "score": 9,
-    "summary": "",
+    "summary": null,
     "genres": [
       "Utopias",
       "Virtual reality",
@@ -577,7 +577,7 @@
     "id": "b313a20d-dc3b-4f26-87f9-9c259bff56b5",
     "date_added": null,
     "score": 6,
-    "summary": "",
+    "summary": null,
     "genres": [
       "Newspaper publishing",
       "Fiction",
@@ -653,7 +653,7 @@
       "Knights and knighthood",
       "Gentry"
     ],
-    "summary": ""
+    "summary": null
   },
   {
     "recommended_by": "Cheese",

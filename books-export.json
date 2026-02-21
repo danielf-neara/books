@@ -78,7 +78,14 @@
     "notes": null,
     "cover_url": "https://covers.openlibrary.org/b/id/77394-M.jpg",
     "date_added": null,
-    "id": "claude-rec-0004-4000-8000-000000000004"
+    "id": "claude-rec-0004-4000-8000-000000000004",
+    "genres": [
+      "Fiction",
+      "Literature",
+      "Assassination attempts",
+      "Assassins"
+    ],
+    "summary": "One of the most celebrated thrillers ever written, The Day of the Jackal is the electrifying story of the struggle to catch a killer before it's too late.  It is 1963 and an anonymous Englishman has been hired by the Operations Chief of the O. A."
   },
   {
     "title": "A Prisoner of Birth",

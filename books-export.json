@@ -699,7 +699,13 @@
     "id": "1b240b4e-c22b-4428-84ba-f1be875077b5",
     "date_added": null,
     "score": 3,
-    "summary": null
+    "summary": "The first novel of Pierce Brown’s iconic, New York Times bestselling Red Rising Saga, now in a stunning deluxe hardcover edition, featuring: • Illustrated slipcase with foil • Designed sprayed edges • New cover and full wrap-around book case art • Fold-out poster • Full-color illustrated endpapers with a new map Darrow is a Red, a member of the lowest caste in the color-coded society of the future.  Like his fellow Reds, he works all day, believing that he and his people are making the surface of Mars livable for future generations.  Yet he toils willingly, trusting that his blood and sweat will one day result in a better world for his children.",
+    "genres": [
+      "franchise:Red Rising",
+      "series:Red Rising Trilogy",
+      "series:Red Rising Saga",
+      "form:novel"
+    ]
   },
   {
     "recommended_by": "Gav",

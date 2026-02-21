@@ -471,5 +471,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('export-btn').addEventListener('click', exportBooks);
 
+  // Tab switching
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const view = btn.dataset.view;
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('library-view').classList.toggle('hidden', view !== 'library');
+      document.getElementById('analytics-view').classList.toggle('hidden', view !== 'analytics');
+      if (view === 'analytics') renderAnalytics(allBooks);
+    });
+  });
+
   applyFiltersAndRender();
 });

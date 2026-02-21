@@ -12,7 +12,14 @@
     "notes": null,
     "cover_url": "https://covers.openlibrary.org/b/id/8574607-M.jpg",
     "date_added": null,
-    "id": "claude-rec-0001-4000-8000-000000000001"
+    "id": "claude-rec-0001-4000-8000-000000000001",
+    "genres": [
+      "Drug traffic",
+      "Fiction",
+      "Fiction, crime",
+      "Fiction, thrillers, general"
+    ],
+    "summary": "'Breathtaking' JEREMY CLARKSON 'Winslow's masterpiece (so far) ...  should have a place on every crime freak's bookshelf.  Superb' INDEPENDENT ON SUNDAY _______________________ A brilliant page-turning thriller of power and revenge on the front lines of the drug war."
   },
   {
     "title": "The Pelican Brief",

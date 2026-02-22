@@ -883,5 +883,20 @@
       "Orphans"
     ],
     "summary": ""
+  },
+  {
+    "title": "Exodus",
+    "author": "Leon Uris",
+    "series": null,
+    "series_order": null,
+    "status": "reading_list",
+    "format": "audiobook",
+    "score": null,
+    "tags": [],
+    "recommended_by": "Gav",
+    "notes": null,
+    "cover_url": "https://covers.openlibrary.org/b/id/975159-M.jpg",
+    "date_added": null,
+    "id": "fa5d2734-cd4a-4cde-9fa8-63fced61205a"
   }
 ]

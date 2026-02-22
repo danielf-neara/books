@@ -29,7 +29,8 @@
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: var(--bg);
+  background: linear-gradient(160deg, #f7f1eb 0%, #ede5d9 45%, #e3d9cd 100%);
+  background-attachment: fixed;
   color: var(--text);
   font-size: 15px;
   line-height: 1.5;
@@ -735,7 +736,7 @@ button:active { opacity: 0.75; }
   border-radius: 0 !important;
 }
 
-.shelf-section { margin-bottom: 20px; }
+.shelf-section { margin-bottom: 36px; }
 
 .shelf-section-header {
   font-size: 0.7rem;
@@ -747,17 +748,33 @@ button:active { opacity: 0.75; }
 }
 
 .shelf-container {
-  background: #1c1008;
-  border-radius: 10px;
-  padding: 20px 14px 0;
+  background: linear-gradient(180deg, #2a1a0e 0%, #3d2514 50%, #2e1c0f 100%);
+  border-radius: 10px 10px 0 0;
+  padding: 20px 14px 16px;
   position: relative;
+  box-shadow:
+    inset 4px 0 12px rgba(0,0,0,0.3),
+    inset -4px 0 12px rgba(0,0,0,0.3),
+    inset 0 6px 12px rgba(0,0,0,0.2);
+}
+
+.shelf-container::after {
+  content: '';
+  position: absolute;
+  bottom: -16px;
+  left: -3px;
+  right: -3px;
+  height: 16px;
+  background: linear-gradient(180deg, #c4895a 0%, #9a6535 40%, #6b4220 100%);
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.55), inset 0 2px 4px rgba(255,255,255,0.12);
 }
 
 .shelf-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(78px, 1fr));
   gap: 10px 10px;
-  padding-bottom: 18px;
+  padding-bottom: 12px;
 }
 
 @media (min-width: 480px) {
@@ -783,7 +800,7 @@ button:active { opacity: 0.75; }
   object-fit: cover;
   border-radius: 3px;
   display: block;
-  box-shadow: 3px 3px 10px rgba(0,0,0,0.6);
+  box-shadow: 3px 5px 14px rgba(0,0,0,0.75), 0 1px 0 rgba(0,0,0,0.4);
 }
 
 .shelf-book-cover-blank {
@@ -795,7 +812,7 @@ button:active { opacity: 0.75; }
   justify-content: center;
   font-size: 1.5rem;
   font-weight: 700;
-  box-shadow: 3px 3px 10px rgba(0,0,0,0.6);
+  box-shadow: 3px 5px 14px rgba(0,0,0,0.75), 0 1px 0 rgba(0,0,0,0.4);
 }
 
 .shelf-badge {

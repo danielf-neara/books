@@ -897,6 +897,12 @@ button:active { opacity: 0.75; }
   letter-spacing: 0.05em;
 }
 
+.shelf-detail-summary {
+  font-size: 0.8rem;
+  color: #52525b;
+  line-height: 1.6;
+}
+
 .shelf-detail-notes {
   font-size: 0.8rem;
   color: var(--muted);

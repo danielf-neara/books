@@ -1136,6 +1136,12 @@ function openShelfDetail(id) {
   if (date)                metaParts.push(date);
   if (book.recommended_by) metaParts.push('Rec. by ' + escHtml(book.recommended_by));
 
+  const summaryHtml = book.summary
+    ? `<p class="shelf-detail-summary">${escHtml(book.summary)}</p>`
+    : (book.summary === null || book.summary === undefined)
+      ? `<p class="shelf-detail-summary detail-loading" id="shelf-summary-loading-${id}">Loading summary…</p>`
+      : '';
+
   document.getElementById('shelf-dialog-content').innerHTML = `
     <div class="shelf-detail-layout">
       <div class="shelf-detail-cover-col">
@@ -1147,6 +1153,7 @@ function openShelfDetail(id) {
         <p class="shelf-detail-author">${escHtml(book.author)}</p>
         ${metaParts.length ? `<p class="shelf-detail-meta">${metaParts.join(' · ')}</p>` : ''}
         <p class="shelf-detail-status-label">${statusLabels[book.status] || book.status}</p>
+        ${summaryHtml}
         ${book.notes ? `<p class="shelf-detail-notes">${escHtml(book.notes)}</p>` : ''}
         ${tags ? `<div class="book-tags">${tags}</div>` : ''}
       </div>
@@ -1168,6 +1175,22 @@ function openShelfDetail(id) {
   };
 
   dialog.showModal();
+
+  // Fetch summary/genres if not yet loaded, then update the dialog
+  if (book.summary === null || book.summary === undefined) {
+    fetchBookDetails(id).then(() => {
+      const loadingEl = document.getElementById(`shelf-summary-loading-${id}`);
+      if (!loadingEl) return;
+      const updated = allBooks.find(b => b.id === id);
+      if (updated && updated.summary) {
+        loadingEl.textContent = updated.summary;
+        loadingEl.classList.remove('detail-loading');
+        loadingEl.removeAttribute('id');
+      } else {
+        loadingEl.remove();
+      }
+    });
+  }
 }
 
 /* -------------------------------------------------- */

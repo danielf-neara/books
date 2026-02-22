@@ -846,5 +846,20 @@
     "cover_url": "https://covers.openlibrary.org/b/id/8801959-M.jpg",
     "date_added": null,
     "id": "a40a5d6b-d976-4849-9b65-ac46794018a5"
+  },
+  {
+    "title": "Deception Point",
+    "author": "Dan Brown",
+    "series": null,
+    "series_order": null,
+    "status": "reading_list",
+    "format": "audiobook",
+    "score": null,
+    "tags": [],
+    "recommended_by": "Gav",
+    "notes": null,
+    "cover_url": "https://covers.openlibrary.org/b/id/14553479-M.jpg",
+    "date_added": null,
+    "id": "aa64d55c-5031-487d-b422-1b6ebc815df6"
   }
 ]

@@ -276,6 +276,7 @@ let allBooks = [];
 let pendingDeleteId = null;
 let activeView      = 'home';
 let dragSrcId       = null;
+let touchDragSrcId  = null;
 let libraryViewMode = 'shelf';
 
 const SPINE_COLORS = [
@@ -382,6 +383,7 @@ function applyFiltersAndRender() {
   }
   updateStats();
   addDragListeners();
+  addTouchDragListeners();
 }
 
 /* -------------------------------------------------- */
@@ -1299,6 +1301,54 @@ function dragCleanup() {
   document.querySelectorAll('#book-list .book-row').forEach(r =>
     r.classList.remove('dragging', 'drag-over-top', 'drag-over-bottom')
   );
+}
+
+/* Touch drag (mobile reorder) */
+function addTouchDragListeners() {
+  if (activeView !== 'reading-list' || GUEST_MODE) return;
+  document.querySelectorAll('#book-list .book-row .drag-handle').forEach(handle => {
+    handle.addEventListener('touchstart', onTouchDragStart, { passive: false });
+  });
+}
+
+function onTouchDragStart(e) {
+  e.preventDefault();
+  const row = this.closest('.book-row');
+  touchDragSrcId = row.dataset.id;
+  row.classList.add('dragging');
+  document.addEventListener('touchmove', onTouchDragMove, { passive: false });
+  document.addEventListener('touchend',  onTouchDragEnd);
+}
+
+function onTouchDragMove(e) {
+  e.preventDefault();
+  const touch = e.touches[0];
+  const el = document.elementFromPoint(touch.clientX, touch.clientY);
+  const targetRow = el && el.closest('#book-list .book-row');
+  document.querySelectorAll('#book-list .book-row').forEach(r =>
+    r.classList.remove('drag-over-top', 'drag-over-bottom')
+  );
+  if (targetRow && targetRow.dataset.id !== touchDragSrcId) {
+    const rect = targetRow.getBoundingClientRect();
+    targetRow.classList.add(touch.clientY < rect.top + rect.height / 2 ? 'drag-over-top' : 'drag-over-bottom');
+  }
+}
+
+function onTouchDragEnd(e) {
+  document.removeEventListener('touchmove', onTouchDragMove);
+  document.removeEventListener('touchend',  onTouchDragEnd);
+  const touch = e.changedTouches[0];
+  const el = document.elementFromPoint(touch.clientX, touch.clientY);
+  const targetRow = el && el.closest('#book-list .book-row');
+  const srcId = touchDragSrcId;
+  touchDragSrcId = null;
+  document.querySelectorAll('#book-list .book-row').forEach(r =>
+    r.classList.remove('dragging', 'drag-over-top', 'drag-over-bottom')
+  );
+  if (srcId && targetRow && targetRow.dataset.id !== srcId) {
+    const rect = targetRow.getBoundingClientRect();
+    reorderReadingList(srcId, targetRow.dataset.id, touch.clientY < rect.top + rect.height / 2);
+  }
 }
 
 function reorderReadingList(srcId, targetId, before) {

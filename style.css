@@ -991,8 +991,17 @@ button:active { opacity: 0.75; }
   cursor: grab;
   opacity: 0.4;
   user-select: none;
-  padding: 0 2px 0 0;
+  touch-action: none;
+  padding: 0 8px 0 0;
   line-height: 1;
+}
+
+@media (pointer: coarse) {
+  .drag-handle {
+    font-size: 1.3rem;
+    opacity: 0.6;
+    padding: 8px 12px 8px 0;
+  }
 }
 
 .drag-handle:active { cursor: grabbing; }

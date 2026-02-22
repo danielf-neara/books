@@ -562,6 +562,23 @@ function bookCardHTML(book) {
 }
 
 /* -------------------------------------------------- */
+/* Platform availability links */
+/* -------------------------------------------------- */
+
+function platformLinksHtml(book) {
+  if (book.format !== 'audiobook') return '';
+  const q          = encodeURIComponent(`${book.title} ${book.author}`);
+  const spotifyUrl = `https://open.spotify.com/search/${q}/audiobooks`;
+  const audibleUrl = `https://www.audible.com.au/search?keywords=${q}`;
+  return `
+    <div class="platform-links">
+      <span class="platform-links-label">Find on</span>
+      <a class="platform-link platform-spotify" href="${spotifyUrl}" target="_blank" rel="noopener">Spotify</a>
+      <a class="platform-link platform-audible" href="${audibleUrl}" target="_blank" rel="noopener">Audible</a>
+    </div>`;
+}
+
+/* -------------------------------------------------- */
 /* Detail content builder */
 /* -------------------------------------------------- */
 
@@ -596,6 +613,7 @@ function buildDetailContent(book) {
     ${summaryHtml}
     ${tags ? `<div class="book-tags">${tags}</div>` : ''}
     ${book.notes ? `<div class="detail-notes">${escHtml(book.notes)}</div>` : ''}
+    ${platformLinksHtml(book)}
     <div class="detail-actions">
       <button class="btn-row-action" onclick="event.stopPropagation(); startEdit('${id}')">Edit</button>
       <button class="btn-row-action danger" onclick="event.stopPropagation(); promptDelete('${id}', '${escAttr(book.title)}')">Delete</button>
@@ -1156,6 +1174,7 @@ function openShelfDetail(id) {
         ${summaryHtml}
         ${book.notes ? `<p class="shelf-detail-notes">${escHtml(book.notes)}</p>` : ''}
         ${tags ? `<div class="book-tags">${tags}</div>` : ''}
+        ${platformLinksHtml(book)}
       </div>
     </div>`;
 

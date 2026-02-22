@@ -717,6 +717,17 @@ button:active { opacity: 0.75; }
   border-radius: 0 !important;
 }
 
+.shelf-section { margin-bottom: 20px; }
+
+.shelf-section-header {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  padding: 0 2px 8px;
+}
+
 .shelf-container {
   background: #1c1008;
   border-radius: 10px;

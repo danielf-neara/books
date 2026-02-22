@@ -1084,17 +1084,35 @@ function updateViewToggleBtn() {
 function renderShelf(books) {
   const list = document.getElementById('book-list');
   list.classList.add('shelf-mode');
-  const shelfBooks = books.filter(b => b.status !== 'reading_list');
-  if (shelfBooks.length === 0) {
+
+  if (books.length === 0) {
     list.innerHTML = '<div id="empty-state">No books to display on the shelf.</div>';
     return;
   }
-  list.innerHTML = `
-    <div class="shelf-container">
-      <div class="shelf-grid">
-        ${shelfBooks.map(shelfBookHTML).join('')}
-      </div>
-    </div>`;
+
+  const groups = [
+    { label: 'In Progress',   items: books.filter(b => b.status === 'in_progress') },
+    { label: 'Completed',     items: books.filter(b => b.status === 'completed') },
+    { label: 'Did Not Finish', items: books.filter(b => b.status === 'dnf') },
+    { label: 'Reading List',  items: books.filter(b => b.status === 'reading_list') },
+  ].filter(g => g.items.length > 0);
+
+  const showSections = groups.length > 1;
+
+  if (showSections) {
+    list.innerHTML = groups.map(g => `
+      <div class="shelf-section">
+        <div class="shelf-section-header">${g.label}</div>
+        <div class="shelf-container">
+          <div class="shelf-grid">${g.items.map(shelfBookHTML).join('')}</div>
+        </div>
+      </div>`).join('');
+  } else {
+    list.innerHTML = `
+      <div class="shelf-container">
+        <div class="shelf-grid">${books.map(shelfBookHTML).join('')}</div>
+      </div>`;
+  }
 }
 
 function shelfBookHTML(book) {

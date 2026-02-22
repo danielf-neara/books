@@ -301,7 +301,7 @@ function bookSpineColor(id) {
 /* -------------------------------------------------- */
 
 function addBook(book) {
-  allBooks.unshift({ ...book, id: crypto.randomUUID() });
+  allBooks.push({ ...book, id: crypto.randomUUID() });
   persistBooks();
   applyFiltersAndRender();
 }

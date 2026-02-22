@@ -400,7 +400,7 @@ function homeBookCardHTML(book) {
   }
 
   return `
-    <div class="home-card" onclick="activateTab('library')">
+    <div class="home-card" onclick="openShelfDetail('${book.id}')">
       <div class="home-card-cover-wrap">
         ${coverEl}
         ${badge}

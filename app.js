@@ -821,63 +821,6 @@ function confirmDelete() {
   document.getElementById('delete-dialog').close();
 }
 
-/* -------------------------------------------------- */
-/* Export */
-/* -------------------------------------------------- */
-
-function importBooks() {
-  document.getElementById('import-input').click();
-}
-
-function handleImport(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = ev => {
-    try {
-      const imported = JSON.parse(ev.target.result);
-      if (!Array.isArray(imported)) throw new Error();
-      allBooks = imported;
-      persistBooks();
-      applyFiltersAndRender();
-    } catch {
-      alert('Invalid file. Please select a valid books export JSON.');
-    }
-  };
-  reader.readAsText(file);
-  e.target.value = '';
-}
-
-async function exportBooks() {
-  const json = JSON.stringify(allBooks, null, 2);
-
-  if (window.showSaveFilePicker) {
-    try {
-      let handle = await _loadHandle();
-      if (!handle) {
-        handle = await window.showSaveFilePicker({
-          suggestedName: 'books-export.json',
-          types: [{ description: 'JSON', accept: { 'application/json': ['.json'] } }],
-        });
-        await _storeHandle(handle);
-      }
-      const ok = await _writeToHandle(handle, json);
-      if (ok) return;
-      // Permission denied or file moved -- reset and fall through to download
-      await _clearHandle();
-    } catch (e) {
-      if (e.name === 'AbortError') return;
-      await _clearHandle();
-    }
-  }
-
-  // Fallback for browsers without File System Access API
-  const blob = new Blob([json], { type: 'application/json' });
-  const url  = URL.createObjectURL(blob);
-  const a    = Object.assign(document.createElement('a'), { href: url, download: 'books-export.json' });
-  a.click();
-  URL.revokeObjectURL(url);
-}
 
 /* -------------------------------------------------- */
 /* Auto-fetch missing covers */
@@ -1426,10 +1369,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       const el = document.getElementById(id);
       if (el) el.classList.add('hidden');
     });
-    ['settings-btn', 'import-btn', 'export-btn'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.classList.add('hidden');
-    });
+    const settingsBtn = document.getElementById('settings-btn');
+    if (settingsBtn) settingsBtn.classList.add('hidden');
     document.getElementById('sync-status').style.display = 'none';
     document.getElementById('guest-badge').classList.remove('hidden');
   }
@@ -1465,9 +1406,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('shelf-dialog').close();
   });
 
-  document.getElementById('export-btn').addEventListener('click', exportBooks);
-  document.getElementById('import-btn').addEventListener('click', importBooks);
-  document.getElementById('import-input').addEventListener('change', handleImport);
   document.getElementById('sync-banner-btn').addEventListener('click', syncFromFile);
 
   document.getElementById('settings-btn').addEventListener('click', () => {

@@ -140,19 +140,15 @@ header h1 {
   gap: 8px;
 }
 
-/* Hide verbose stats + secondary buttons on mobile */
-.stat           { display: none; }
-#import-btn,
-#export-btn     { display: none; }
+/* Hide verbose stats on mobile */
+.stat { display: none; }
 
 /* Show on wider screens */
 @media (min-width: 640px) {
-  header        { padding: 0 20px; height: auto; min-height: 52px; }
-  #stats-strip  { gap: 16px; }
-  .stat         { display: inline; font-size: 0.78rem; color: var(--muted); }
-  .stat span    { font-weight: 700; color: var(--text); font-size: 0.9rem; }
-  #import-btn,
-  #export-btn   { display: inline-flex; }
+  header       { padding: 0 20px; height: auto; min-height: 52px; }
+  #stats-strip { gap: 16px; }
+  .stat        { display: inline; font-size: 0.78rem; color: var(--muted); }
+  .stat span   { font-weight: 700; color: var(--text); font-size: 0.9rem; }
 }
 
 /* -------------------------------------------------- */
@@ -1103,22 +1099,37 @@ button:active { opacity: 0.75; }
 /* -------------------------------------------------- */
 .home-hero {
   position: relative;
-  background: linear-gradient(135deg, #0b1120 0%, #0f2044 60%, #1a3560 100%);
+  background: linear-gradient(145deg, #0f1e50 0%, #0b1635 55%, #07101f 100%);
   overflow: hidden;
-  padding: 40px 20px;
+  padding: 36px 20px;
+  border-radius: 20px;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.08) inset,
+    0 -1px 0 rgba(0,0,0,0.4) inset,
+    0 6px 0 #04090f,
+    0 10px 30px rgba(4,9,15,0.55),
+    0 24px 60px rgba(4,9,15,0.3);
 }
 
 @media (min-width: 480px) {
-  .home-hero { padding: 56px 24px; }
+  .home-hero { padding: 48px 28px; border-radius: 24px; }
 }
 
 .home-hero-grid {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-  background-size: 40px 40px;
+    linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+  background-size: 36px 36px;
+  pointer-events: none;
+}
+
+.home-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(80,120,255,0.18) 0%, transparent 70%);
   pointer-events: none;
 }
 

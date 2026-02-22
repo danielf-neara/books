@@ -270,7 +270,7 @@ let allBooks = [];
 let pendingDeleteId = null;
 let activeView      = 'home';
 let dragSrcId       = null;
-let libraryViewMode = 'list';
+let libraryViewMode = 'shelf';
 
 const SPINE_COLORS = [
   ['#1e3a6e', '#b8c8e8'],

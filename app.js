@@ -472,18 +472,19 @@ function renderBooks(books) {
     return;
   }
 
-  const inProgress = books.filter(b => b.status === 'in_progress');
-  const completed  = books.filter(b => b.status === 'completed');
-  const other      = books.filter(b => b.status !== 'in_progress' && b.status !== 'completed');
+  const inProgress  = books.filter(b => b.status === 'in_progress');
+  const completed   = books.filter(b => b.status === 'completed');
+  const dnf         = books.filter(b => b.status === 'dnf');
+  const readingList = books.filter(b => b.status === 'reading_list');
 
-  // If both sections present, render with headers; otherwise render flat
-  const showSections = inProgress.length > 0 && completed.length > 0;
+  const sectionCount = [inProgress, completed, dnf, readingList].filter(g => g.length > 0).length;
 
-  if (showSections) {
+  if (sectionCount > 1) {
     list.innerHTML =
       section('In Progress', inProgress) +
       section('Completed', completed) +
-      (other.length ? section('Other', other) : '');
+      section('Did Not Finish', dnf) +
+      section('Reading List', readingList);
   } else {
     list.innerHTML = books.map(bookCardHTML).join('');
   }

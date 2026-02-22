@@ -1342,6 +1342,62 @@ button:active { opacity: 0.75; }
 }
 
 /* -------------------------------------------------- */
+/* Recommendations section */
+/* -------------------------------------------------- */
+.home-recs-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+.home-recs-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.btn-recs {
+  background: linear-gradient(145deg, #0f1e50 0%, #0b1635 100%);
+  color: rgba(255,255,255,0.92);
+  border: none;
+  border-radius: 10px;
+  padding: 12px 22px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.1),
+    0 2px 0 #04090f,
+    0 6px 20px rgba(4,9,15,0.35);
+  transition: transform 0.12s, box-shadow 0.12s;
+}
+
+.btn-recs:active {
+  transform: translateY(1px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.1),
+    0 1px 0 #04090f,
+    0 2px 8px rgba(4,9,15,0.25);
+}
+
+.home-recs-status {
+  font-size: 0.82rem;
+  color: var(--green);
+  font-weight: 500;
+}
+
+.home-recs-status a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* -------------------------------------------------- */
 /* Delete dialog */
 /* -------------------------------------------------- */
 dialog {

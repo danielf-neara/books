@@ -453,6 +453,74 @@ function renderHome() {
   } else {
     upNextSection.classList.add('hidden');
   }
+
+  const claudePicks = allBooks.filter(b =>
+    b.status === 'reading_list' && b.recommended_by === 'Claude'
+  );
+  const picksWrap = document.getElementById('home-claude-picks-wrap');
+  if (claudePicks.length) {
+    document.getElementById('home-claude-picks').innerHTML = claudePicks.map(homeBookCardHTML).join('');
+    picksWrap.classList.remove('hidden');
+  } else {
+    picksWrap.classList.add('hidden');
+  }
+}
+
+function copyRecsPrompt() {
+  const completed = allBooks.filter(b => b.status === 'completed' && b.score != null)
+    .sort((a, b) => b.score - a.score);
+  const inProgress = allBooks.filter(b => b.status === 'in_progress');
+  const queue      = allBooks.filter(b => b.status === 'reading_list');
+
+  const loved    = completed.filter(b => b.score >= 8);
+  const liked    = completed.filter(b => b.score >= 6 && b.score < 8);
+  const disliked = completed.filter(b => b.score < 6);
+
+  const tagCounts = {};
+  loved.forEach(b => (b.tags || []).forEach(t => tagCounts[t] = (tagCounts[t] || 0) + 1));
+  const topTags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]).slice(0, 4).map(([t]) => t);
+
+  const formats = completed.reduce((acc, b) => { acc[b.format] = (acc[b.format] || 0) + 1; return acc; }, {});
+
+  const fmtBook = b => {
+    const genres = b.genres?.length ? ` [${b.genres.slice(0, 3).join(', ')}]` : '';
+    return `- ${b.title} by ${b.author}${genres} — ${b.score}/10${b.notes ? ` (note: "${b.notes}")` : ''}`;
+  };
+
+  const prompt = `I track books and audiobooks I've read. Please recommend 8–10 books I'd enjoy based on my history below.
+
+FORMAT YOUR RESPONSE AS:
+For each recommendation: **Title** by Author — [1–2 sentence reason why it fits my taste]
+
+---
+
+## MY TOP READS (scored 8–10/10)
+${loved.map(fmtBook).join('\n') || 'None yet'}
+
+## LIKED (scored 6–7/10)
+${liked.map(fmtBook).join('\n') || 'None yet'}
+
+## DIDN'T ENJOY (scored below 6)
+${disliked.map(fmtBook).join('\n') || 'None yet'}
+
+## CURRENTLY READING
+${inProgress.map(b => `- ${b.title} by ${b.author}`).join('\n') || 'Nothing in progress'}
+
+## ALREADY IN MY QUEUE (don't recommend these)
+${queue.map(b => `- ${b.title} by ${b.author}`).join('\n') || 'Queue is empty'}
+
+## PATTERNS
+- Engagement tags on my top books: ${topTags.join(', ') || 'not enough data yet'}
+- Format breakdown: ${Object.entries(formats).map(([f, c]) => `${c} ${f}s`).join(', ')}
+- Total finished: ${completed.length}
+
+Focus on books that match the feel of my 9s and 10s. Avoid recommending anything already in my queue.`;
+
+  navigator.clipboard.writeText(prompt).then(() => {
+    const status = document.getElementById('home-recs-status');
+    status.classList.remove('hidden');
+    setTimeout(() => status.classList.add('hidden'), 8000);
+  });
 }
 
 function updateStats() {

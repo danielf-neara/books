@@ -90,6 +90,22 @@
           <div id="home-upnext" class="home-cards-row"></div>
         </section>
 
+        <section id="home-recs-section">
+          <h2 class="home-section-title">Recommendations</h2>
+          <div id="home-claude-picks-wrap" class="hidden">
+            <p class="home-recs-label">From previous Claude sessions</p>
+            <div id="home-claude-picks" class="home-cards-row"></div>
+          </div>
+          <div class="home-recs-actions">
+            <button id="home-recs-btn" class="btn-recs" onclick="copyRecsPrompt()">
+              Generate recommendation prompt
+            </button>
+            <p id="home-recs-status" class="home-recs-status hidden">
+              Prompt copied — <a href="https://claude.ai" target="_blank" rel="noopener">open Claude.ai ↗</a>
+            </p>
+          </div>
+        </section>
+
       </div>
 
     </div><!-- /home-view -->

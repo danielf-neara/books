@@ -1,4 +1,10 @@
 /* -------------------------------------------------- */
+/* Guest mode */
+/* -------------------------------------------------- */
+
+const GUEST_MODE = new URLSearchParams(window.location.search).get('guest') === '1';
+
+/* -------------------------------------------------- */
 /* Constants */
 /* -------------------------------------------------- */
 
@@ -1236,7 +1242,7 @@ function openShelfDetail(id) {
 /* -------------------------------------------------- */
 
 function addDragListeners() {
-  if (activeView !== 'reading-list') return;
+  if (activeView !== 'reading-list' || GUEST_MODE) return;
   document.querySelectorAll('#book-list .book-row').forEach(row => {
     row.setAttribute('draggable', 'true');
     row.addEventListener('dragstart', onDragStart);
@@ -1364,6 +1370,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     setSyncStatus(getGithubPat() ? 'error' : 'offline');
   }
 
+  if (GUEST_MODE) {
+    document.body.classList.add('guest-mode');
+    ['add-section', 'sync-banner', 'view-toggle-section'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.classList.add('hidden');
+    });
+    ['settings-btn', 'import-btn', 'export-btn'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.classList.add('hidden');
+    });
+    document.getElementById('sync-status').style.display = 'none';
+    document.getElementById('guest-badge').classList.remove('hidden');
+  }
+
   document.getElementById('toggle-form-btn').addEventListener('click', () => {
     const form = document.getElementById('book-form');
     if (form.classList.contains('hidden')) showForm();
@@ -1468,9 +1488,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('library-view').classList.toggle('hidden', !isLibrary && !isReadingList);
     document.getElementById('analytics-view').classList.toggle('hidden', !isAnalytics);
 
-    document.getElementById('add-section').classList.toggle('hidden', isReadingList);
+    document.getElementById('add-section').classList.toggle('hidden', isReadingList || GUEST_MODE);
     document.getElementById('filter-section').classList.toggle('hidden', isReadingList);
-    document.getElementById('view-toggle-section').classList.toggle('hidden', isReadingList);
+    document.getElementById('view-toggle-section').classList.toggle('hidden', isReadingList || GUEST_MODE);
 
     if (isHome) {
       renderHome();

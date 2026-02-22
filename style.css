@@ -38,6 +38,24 @@ body {
 }
 
 /* -------------------------------------------------- */
+/* Guest mode */
+/* -------------------------------------------------- */
+.guest-mode .detail-actions    { display: none !important; }
+.guest-mode .shelf-dialog-actions { display: none !important; }
+.guest-mode .drag-handle        { display: none !important; }
+
+.guest-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 5px;
+  background: #e8ecf5;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+/* -------------------------------------------------- */
 /* Sync status + settings */
 /* -------------------------------------------------- */
 #sync-status {

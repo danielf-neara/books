@@ -147,6 +147,21 @@
     "summary": "One of the most celebrated thrillers ever written, The Day of the Jackal is the electrifying story of the struggle to catch a killer before it's too late.  It is 1963 and an anonymous Englishman has been hired by the Operations Chief of the O. A."
   },
   {
+    "title": "Exodus",
+    "author": "Leon Uris",
+    "series": null,
+    "series_order": null,
+    "status": "reading_list",
+    "format": "audiobook",
+    "score": null,
+    "tags": [],
+    "recommended_by": "Gav",
+    "notes": null,
+    "cover_url": "https://covers.openlibrary.org/b/id/975159-M.jpg",
+    "date_added": null,
+    "id": "fa5d2734-cd4a-4cde-9fa8-63fced61205a"
+  },
+  {
     "title": "A Prisoner of Birth",
     "author": "Jeffrey Archer",
     "series": null,
@@ -913,20 +928,5 @@
     "cover_url": "https://covers.openlibrary.org/b/id/7993430-M.jpg",
     "date_added": null,
     "id": "1016d84a-5f49-4a14-9273-3e7a2bab6c5c"
-  },
-  {
-    "title": "Exodus",
-    "author": "Leon Uris",
-    "series": null,
-    "series_order": null,
-    "status": "reading_list",
-    "format": "audiobook",
-    "score": null,
-    "tags": [],
-    "recommended_by": "Gav",
-    "notes": null,
-    "cover_url": "https://covers.openlibrary.org/b/id/975159-M.jpg",
-    "date_added": null,
-    "id": "fa5d2734-cd4a-4cde-9fa8-63fced61205a"
   }
 ]

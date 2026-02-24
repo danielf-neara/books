@@ -49,7 +49,14 @@
     "notes": null,
     "cover_url": "https://covers.openlibrary.org/b/id/8788773-M.jpg",
     "date_added": null,
-    "id": "061aa8c2-d5cf-4d6b-b681-95e013bc6fdb"
+    "id": "061aa8c2-d5cf-4d6b-b681-95e013bc6fdb",
+    "genres": [
+      "Economic history",
+      "New York Times bestseller",
+      "Leadership",
+      "Executives"
+    ],
+    "summary": ""
   },
   {
     "title": "The Power of the Dog",

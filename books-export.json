@@ -971,6 +971,13 @@
     "notes": null,
     "cover_url": "https://covers.openlibrary.org/b/id/13143232-M.jpg",
     "date_added": null,
-    "id": "6ff6c1be-a420-4682-9c94-68e2c51ec0a9"
+    "id": "6ff6c1be-a420-4682-9c94-68e2c51ec0a9",
+    "genres": [
+      "series:Secret Projects",
+      "fiction",
+      "fantasy",
+      "general"
+    ],
+    "summary": ""
   }
 ]

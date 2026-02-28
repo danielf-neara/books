@@ -956,7 +956,14 @@
     "notes": null,
     "cover_url": "https://covers.openlibrary.org/b/id/8634250-M.jpg",
     "date_added": null,
-    "id": "8e191118-8e00-4b11-a929-f106ad42c34f"
+    "id": "8e191118-8e00-4b11-a929-f106ad42c34f",
+    "genres": [
+      "Technology and civilization",
+      "Human beings",
+      "Historical Chronology",
+      "Historia universal"
+    ],
+    "summary": "100,000 years ago, at least six human species inhabited the earth.  Today there is just one.  Us."
   },
   {
     "title": "Tress of the Emerald Sea",

@@ -10,7 +10,7 @@ A personal book and audiobook tracker with Claude-powered recommendations. Track
 
 ## Repository
 
-- **Remote**: (not yet configured)
+- **Remote**: `https://github.com/danielf-neara/books.git`
 - **Branch**: `main`
 
 ## Purpose

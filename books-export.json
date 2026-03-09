@@ -988,21 +988,6 @@
     "summary": ""
   },
   {
-    "title": "the final score",
-    "author": "don winslow",
-    "series": null,
-    "series_order": null,
-    "status": "reading_list",
-    "format": "audiobook",
-    "score": null,
-    "tags": [],
-    "recommended_by": null,
-    "notes": null,
-    "cover_url": null,
-    "date_added": null,
-    "id": "449b8d05-faac-4eb4-b22b-dbeab36b875a"
-  },
-  {
     "title": "The Final Score",
     "author": "Don Winslow",
     "series": null,
@@ -1015,6 +1000,8 @@
     "notes": null,
     "cover_url": null,
     "date_added": null,
-    "id": "fbc29d34-4dbe-43c4-b80f-4b20fa885f33"
+    "id": "fbc29d34-4dbe-43c4-b80f-4b20fa885f33",
+    "genres": [],
+    "summary": ""
   }
 ]

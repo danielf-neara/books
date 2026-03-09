@@ -129,9 +129,11 @@
               <div id="book-suggestions" class="hidden"></div>
             </div>
             <div class="author-field">
-              <label>Author *
-                <input type="text" id="f-author" placeholder="Auto-filled or type manually" required autocomplete="off">
-              </label>
+              <div class="author-field-header">
+                <label for="f-author">Author *</label>
+                <button type="button" id="author-browse-btn" class="btn-browse-author">Browse author</button>
+              </div>
+              <input type="text" id="f-author" placeholder="Auto-filled or type manually" required autocomplete="off">
               <div id="author-suggestions" class="hidden"></div>
             </div>
           </div>
@@ -317,6 +319,22 @@
       <button id="shelf-dialog-edit" class="btn-primary">Edit</button>
       <button id="shelf-dialog-delete" class="btn-row-action danger">Delete</button>
       <button id="shelf-dialog-cancel" class="btn-secondary">Close</button>
+    </div>
+  </dialog>
+
+  <dialog id="author-browse-dialog">
+    <div class="author-browse-header">
+      <h2>Browse by Author</h2>
+      <button class="author-browse-close" id="author-browse-close" aria-label="Close">&#x2715;</button>
+    </div>
+    <div class="author-browse-search-row">
+      <input type="text" id="author-browse-input" placeholder="Author name..." autocomplete="off">
+      <button id="author-browse-search-btn" class="btn-primary">Search</button>
+    </div>
+    <p id="author-browse-status" class="author-browse-status hidden"></p>
+    <div id="author-browse-results" class="author-browse-results"></div>
+    <div class="author-browse-footer">
+      <button id="author-browse-more" class="btn-secondary hidden">Load more</button>
     </div>
   </dialog>
 

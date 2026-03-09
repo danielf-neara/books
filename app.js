@@ -943,7 +943,7 @@ let lookupTimeout = null;
 let authorLookupTimeout = null;
 
 async function searchOpenLibrary(query) {
-  const url = `https://openlibrary.org/search.json?title=${encodeURIComponent(query)}&limit=6&fields=title,author_name,series,series_number,cover_i`;
+  const url = `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=20&fields=title,author_name,series,series_number,cover_i`;
   try {
     const res  = await fetch(url);
     const data = await res.json();
@@ -1005,7 +1005,7 @@ function closeSuggestions() {
 }
 
 async function searchOpenLibraryByAuthor(query) {
-  const url = `https://openlibrary.org/search.json?author=${encodeURIComponent(query)}&limit=6&fields=title,author_name,series,series_number,cover_i`;
+  const url = `https://openlibrary.org/search.json?author=${encodeURIComponent(query)}&limit=20&fields=title,author_name,series,series_number,cover_i`;
   try {
     const res  = await fetch(url);
     const data = await res.json();
@@ -1062,6 +1062,112 @@ function showAuthorSuggestions(results) {
 
 function closeAuthorSuggestions() {
   document.getElementById('author-suggestions').classList.add('hidden');
+}
+
+/* -------------------------------------------------- */
+/* Author Browse Modal */
+/* -------------------------------------------------- */
+
+let authorBrowseOffset = 0;
+let authorBrowseQuery  = '';
+const AUTHOR_BROWSE_LIMIT = 20;
+
+function openAuthorBrowse() {
+  const dialog = document.getElementById('author-browse-dialog');
+  const authorVal = document.getElementById('f-author').value.trim();
+  document.getElementById('author-browse-input').value = authorVal;
+  document.getElementById('author-browse-results').innerHTML = '';
+  document.getElementById('author-browse-status').classList.add('hidden');
+  document.getElementById('author-browse-more').classList.add('hidden');
+  authorBrowseOffset = 0;
+  authorBrowseQuery  = '';
+  dialog.showModal();
+  if (authorVal.length >= 2) {
+    doAuthorBrowseSearch(authorVal, 0);
+  } else {
+    document.getElementById('author-browse-input').focus();
+  }
+}
+
+async function doAuthorBrowseSearch(query, offset) {
+  const statusEl  = document.getElementById('author-browse-status');
+  const moreBtn   = document.getElementById('author-browse-more');
+  const resultsEl = document.getElementById('author-browse-results');
+
+  if (offset === 0) {
+    resultsEl.innerHTML = '';
+    moreBtn.classList.add('hidden');
+  }
+
+  statusEl.textContent = 'Searching\u2026';
+  statusEl.classList.remove('hidden');
+
+  const url = `https://openlibrary.org/search.json?author=${encodeURIComponent(query)}&limit=${AUTHOR_BROWSE_LIMIT}&offset=${offset}&fields=title,author_name,series,series_number,cover_i&sort=editions`;
+  try {
+    const res  = await fetch(url);
+    const data = await res.json();
+    const docs  = data.docs || [];
+    const total = data.numFound || 0;
+
+    if (offset === 0) {
+      statusEl.textContent = `${total.toLocaleString()} results for \u201c${query}\u201d`;
+    } else {
+      statusEl.classList.add('hidden');
+    }
+
+    if (!docs.length && offset === 0) {
+      statusEl.textContent = `No results for \u201c${query}\u201d`;
+      return;
+    }
+
+    renderAuthorBrowseResults(docs);
+    authorBrowseQuery  = query;
+    authorBrowseOffset = offset + docs.length;
+
+    if (authorBrowseOffset < total && docs.length === AUTHOR_BROWSE_LIMIT) {
+      moreBtn.classList.remove('hidden');
+    } else {
+      moreBtn.classList.add('hidden');
+    }
+  } catch {
+    statusEl.textContent = 'Search failed. Check your connection.';
+  }
+}
+
+function renderAuthorBrowseResults(docs) {
+  const resultsEl = document.getElementById('author-browse-results');
+  docs.forEach(book => {
+    const title    = book.title || '';
+    const author   = (book.author_name   || [])[0] || '';
+    const series   = (book.series        || [])[0] || '';
+    const seriesNo = (book.series_number || [])[0] || '';
+    const coverId  = book.cover_i || null;
+    const coverUrl    = coverId ? `https://covers.openlibrary.org/b/id/${coverId}-S.jpg` : null;
+    const medCoverUrl = coverId ? `https://covers.openlibrary.org/b/id/${coverId}-M.jpg` : null;
+
+    const item = document.createElement('div');
+    item.className = 'ab-item';
+    item.innerHTML = `
+      ${coverUrl
+        ? `<img class="ab-cover" src="${coverUrl}" alt="" loading="lazy">`
+        : '<div class="ab-cover ab-cover-blank"></div>'}
+      <div class="ab-info">
+        <div class="ab-title">${escHtml(title)}</div>
+        <div class="ab-meta">${escHtml(author)}${series ? ` &middot; ${escHtml(series)}${seriesNo ? ' #' + parseInt(seriesNo) : ''}` : ''}</div>
+      </div>`;
+
+    item.addEventListener('click', () => {
+      document.getElementById('f-title').value        = title;
+      document.getElementById('f-author').value       = author;
+      document.getElementById('f-series').value       = series;
+      document.getElementById('f-series-order').value = seriesNo ? parseInt(seriesNo) || '' : '';
+      document.getElementById('f-cover-url').value    = medCoverUrl || '';
+      document.getElementById('author-browse-dialog').close();
+      document.getElementById('f-score').focus();
+    });
+
+    resultsEl.appendChild(item);
+  });
 }
 
 /* -------------------------------------------------- */
@@ -1527,6 +1633,26 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
   authorInput.addEventListener('blur', () => {
     setTimeout(closeAuthorSuggestions, 150);
+  });
+
+  // Author browse modal
+  document.getElementById('author-browse-btn').addEventListener('click', openAuthorBrowse);
+  document.getElementById('author-browse-close').addEventListener('click', () => {
+    document.getElementById('author-browse-dialog').close();
+  });
+  document.getElementById('author-browse-search-btn').addEventListener('click', () => {
+    const q = document.getElementById('author-browse-input').value.trim();
+    if (q.length >= 2) doAuthorBrowseSearch(q, 0);
+  });
+  document.getElementById('author-browse-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const q = document.getElementById('author-browse-input').value.trim();
+      if (q.length >= 2) doAuthorBrowseSearch(q, 0);
+    }
+  });
+  document.getElementById('author-browse-more').addEventListener('click', () => {
+    doAuthorBrowseSearch(authorBrowseQuery, authorBrowseOffset);
   });
 
   // Tab switching

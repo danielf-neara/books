@@ -992,14 +992,16 @@
     "author": "Don Winslow",
     "series": null,
     "series_order": null,
-    "status": "reading_list",
+    "status": "completed",
     "format": "audiobook",
-    "score": null,
-    "tags": [],
+    "score": 6,
+    "tags": [
+      "slow_start"
+    ],
     "recommended_by": null,
     "notes": null,
     "cover_url": null,
-    "date_added": null,
+    "date_added": "2026-03-06",
     "id": "fbc29d34-4dbe-43c4-b80f-4b20fa885f33",
     "genres": [],
     "summary": ""

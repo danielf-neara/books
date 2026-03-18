@@ -1040,5 +1040,20 @@
     "cover_url": "https://covers.openlibrary.org/b/id/10297781-M.jpg",
     "date_added": null,
     "id": "338a3f5a-26e5-49cc-8fda-cf5d2845a50d"
+  },
+  {
+    "title": "Ruin and Rising",
+    "author": "Leigh Bardugo",
+    "series": null,
+    "series_order": null,
+    "status": "reading_list",
+    "format": "audiobook",
+    "score": null,
+    "tags": [],
+    "recommended_by": "Jabes",
+    "notes": null,
+    "cover_url": "https://covers.openlibrary.org/b/id/12667421-M.jpg",
+    "date_added": null,
+    "id": "a577ecae-0233-4f29-a661-84b01d621af9"
   }
 ]

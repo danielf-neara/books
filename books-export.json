@@ -1039,7 +1039,14 @@
     "notes": null,
     "cover_url": "https://covers.openlibrary.org/b/id/10297781-M.jpg",
     "date_added": null,
-    "id": "338a3f5a-26e5-49cc-8fda-cf5d2845a50d"
+    "id": "338a3f5a-26e5-49cc-8fda-cf5d2845a50d",
+    "genres": [
+      "Monsters -- Fiction",
+      "Magic -- Fiction",
+      "Orphans -- Fiction",
+      "Fantasy"
+    ],
+    "summary": ""
   },
   {
     "title": "Ruin and Rising",

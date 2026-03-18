@@ -1002,7 +1002,14 @@
     "notes": null,
     "cover_url": "https://covers.openlibrary.org/b/id/13816048-M.jpg",
     "date_added": null,
-    "id": "0d369d05-9d0e-4701-a0ed-ed3f6d4af927"
+    "id": "0d369d05-9d0e-4701-a0ed-ed3f6d4af927",
+    "genres": [
+      "Magic",
+      "Ability",
+      "Fantasy fiction",
+      "Orphans"
+    ],
+    "summary": ""
   },
   {
     "title": "Sneak Peek for the Poet Empress",

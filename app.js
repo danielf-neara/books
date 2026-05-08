@@ -116,6 +116,12 @@ async function githubLoad() {
     if (!res.ok) return null;
     const data = await res.json();
     githubSha = data.sha;
+    // File too large for Contents API (>1MB) — fetch raw content instead
+    if (data.encoding === 'none') {
+      const raw = await fetch(data.download_url);
+      if (!raw.ok) return null;
+      return await raw.json();
+    }
     return JSON.parse(atob(data.content.replace(/\n/g, '')));
   } catch {
     return null;
@@ -746,7 +752,7 @@ async function fetchGenres(title, author) {
     const subjects = data.docs?.[0]?.subject || [];
     // Keep short, non-location subjects (likely genre labels)
     return subjects
-      .filter(s => s.length < 28 && !/\(|\d/.test(s))
+      .filter(s => s.length < 28 && !/\(|\d/.test(s) && !/[^\x00-\x7F]/.test(s))
       .slice(0, 4);
   } catch {
     return [];

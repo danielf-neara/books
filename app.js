@@ -1327,8 +1327,9 @@ function openShelfDetail(id) {
     if (libraryViewMode === 'shelf') {
       libraryViewMode = 'list';
       updateViewToggleBtn();
-      applyFiltersAndRender();
     }
+    // Ensure library view is visible before showing the edit form
+    document.querySelector('.tab-btn[data-view="library"]').click();
     startEdit(id);
   };
 

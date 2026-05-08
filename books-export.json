@@ -1056,7 +1056,14 @@
     "notes": null,
     "cover_url": "https://covers.openlibrary.org/b/id/12667421-M.jpg",
     "date_added": null,
-    "id": "a577ecae-0233-4f29-a661-84b01d621af9"
+    "id": "a577ecae-0233-4f29-a661-84b01d621af9",
+    "genres": [
+      "Magic",
+      "Fantasy fiction",
+      "Orphans",
+      "Fantasy"
+    ],
+    "summary": ""
   },
   {
     "title": "Notes on Being a Man",

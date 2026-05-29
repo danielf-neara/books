@@ -109,16 +109,19 @@ async function githubLoad() {
   const headers = { Accept: 'application/vnd.github+json' };
   if (pat) headers.Authorization = `Bearer ${pat}`;
   try {
+    // cache: 'no-store' is critical. GitHub sends cache-control: max-age=60,
+    // so without it the browser returns stale data after a recent save and
+    // overwrites localStorage with the pre-edit version on reload.
     const res = await fetch(
       `https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_FILE}`,
-      { headers }
+      { headers, cache: 'no-store' }
     );
     if (!res.ok) return null;
     const data = await res.json();
     githubSha = data.sha;
     // File too large for Contents API (>1MB) — fetch raw content instead
     if (data.encoding === 'none') {
-      const raw = await fetch(data.download_url);
+      const raw = await fetch(data.download_url, { cache: 'no-store' });
       if (!raw.ok) return null;
       return await raw.json();
     }

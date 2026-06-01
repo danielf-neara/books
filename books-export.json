@@ -843,7 +843,13 @@
     "notes": null,
     "date_added": null,
     "id": "aa64d55c-5031-487d-b422-1b6ebc815df6",
-    "summary": null
+    "summary": "",
+    "genres": [
+      "mystery fiction",
+      "adventure fiction",
+      "literature",
+      "Meteors"
+    ]
   },
   {
     "recommended_by": "Gav",

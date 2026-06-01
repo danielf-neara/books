@@ -903,7 +903,13 @@
     "notes": null,
     "date_added": null,
     "id": "603ee2fe-6ace-4419-86ba-2ddd26b8642a",
-    "summary": null
+    "summary": "",
+    "genres": [
+      "Fiction",
+      "History",
+      "War in Fiction",
+      "Jews in Fiction"
+    ]
   },
   {
     "recommended_by": "Gav",

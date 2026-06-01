@@ -128,28 +128,6 @@
   {
     "recommended_by": "Claude",
     "tags": [],
-    "cover_url": "https://covers.openlibrary.org/b/id/6581609-M.jpg",
-    "title": "American Assassin",
-    "author": "Vince Flynn",
-    "series": "Mitch Rapp",
-    "series_order": 1,
-    "status": "reading_list",
-    "format": "audiobook",
-    "score": null,
-    "notes": null,
-    "date_added": null,
-    "id": "claude-rec-0003-4000-8000-000000000003",
-    "genres": [
-      "New York Times bestseller",
-      "Terrorism",
-      "Fiction",
-      "Prevention"
-    ],
-    "summary": ""
-  },
-  {
-    "recommended_by": "Claude",
-    "tags": [],
     "cover_url": "https://covers.openlibrary.org/b/id/2843581-M.jpg",
     "title": "A Prisoner of Birth",
     "author": "Jeffrey Archer",

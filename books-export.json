@@ -150,28 +150,6 @@
   {
     "recommended_by": "Claude",
     "tags": [],
-    "cover_url": "https://covers.openlibrary.org/b/id/77394-M.jpg",
-    "title": "The Day of the Jackal",
-    "author": "Frederick Forsyth",
-    "series": null,
-    "series_order": null,
-    "status": "reading_list",
-    "format": "audiobook",
-    "score": null,
-    "notes": null,
-    "date_added": null,
-    "id": "claude-rec-0004-4000-8000-000000000004",
-    "genres": [
-      "Fiction",
-      "Literature",
-      "Assassination attempts",
-      "Assassins"
-    ],
-    "summary": null
-  },
-  {
-    "recommended_by": "Claude",
-    "tags": [],
     "cover_url": "https://covers.openlibrary.org/b/id/2843581-M.jpg",
     "title": "A Prisoner of Birth",
     "author": "Jeffrey Archer",

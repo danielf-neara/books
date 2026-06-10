@@ -1,5 +1,26 @@
 [
   {
+    "title": "Shift",
+    "author": "Hugh Howey",
+    "series": "Silo",
+    "series_order": 2,
+    "status": "reading_list",
+    "format": "audiobook",
+    "score": null,
+    "tags": [],
+    "recommended_by": "Gav",
+    "notes": null,
+    "cover_url": "https://covers.openlibrary.org/b/isbn/9781476735139-M.jpg",
+    "date_added": "2026-05-08",
+    "id": "06027ba8-8855-403e-ac44-3517782ff99c",
+    "genres": [
+      "Science Fiction",
+      "Dystopian",
+      "Post-Apocalyptic"
+    ],
+    "summary": "The origins of the silo are revealed as the story shifts back in time to explore how and why this world was built."
+  },
+  {
     "recommended_by": "Claude",
     "tags": [],
     "cover_url": "https://covers.openlibrary.org/b/id/6714053-M.jpg",
@@ -1185,27 +1206,6 @@
       "Post-Apocalyptic"
     ],
     "summary": "In a future where humanity lives in an underground silo, questioning the rules means death. But Juliette, a mechanic, begins to uncover the truth."
-  },
-  {
-    "title": "Shift",
-    "author": "Hugh Howey",
-    "series": "Silo",
-    "series_order": 2,
-    "status": "reading_list",
-    "format": "audiobook",
-    "score": null,
-    "tags": [],
-    "recommended_by": "Gav",
-    "notes": null,
-    "cover_url": "https://covers.openlibrary.org/b/isbn/9781476735139-M.jpg",
-    "date_added": "2026-05-08",
-    "id": "06027ba8-8855-403e-ac44-3517782ff99c",
-    "genres": [
-      "Science Fiction",
-      "Dystopian",
-      "Post-Apocalyptic"
-    ],
-    "summary": "The origins of the silo are revealed as the story shifts back in time to explore how and why this world was built."
   },
   {
     "title": "Dust",

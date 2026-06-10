@@ -21,6 +21,27 @@
     "summary": "The origins of the silo are revealed as the story shifts back in time to explore how and why this world was built."
   },
   {
+    "title": "Dust",
+    "author": "Hugh Howey",
+    "series": "Silo",
+    "series_order": 3,
+    "status": "reading_list",
+    "format": "audiobook",
+    "score": null,
+    "tags": [],
+    "recommended_by": "Gav",
+    "notes": null,
+    "cover_url": "https://covers.openlibrary.org/b/isbn/9781476735122-M.jpg",
+    "date_added": "2026-05-08",
+    "id": "f1489c0f-83b9-4aa4-9af7-9d43cef47b46",
+    "genres": [
+      "Science Fiction",
+      "Dystopian",
+      "Post-Apocalyptic"
+    ],
+    "summary": "The final book in the Silo trilogy, as Juliette fights to change a world that was designed never to change."
+  },
+  {
     "recommended_by": "Claude",
     "tags": [],
     "cover_url": "https://covers.openlibrary.org/b/id/6714053-M.jpg",
@@ -1206,26 +1227,5 @@
       "Post-Apocalyptic"
     ],
     "summary": "In a future where humanity lives in an underground silo, questioning the rules means death. But Juliette, a mechanic, begins to uncover the truth."
-  },
-  {
-    "title": "Dust",
-    "author": "Hugh Howey",
-    "series": "Silo",
-    "series_order": 3,
-    "status": "reading_list",
-    "format": "audiobook",
-    "score": null,
-    "tags": [],
-    "recommended_by": "Gav",
-    "notes": null,
-    "cover_url": "https://covers.openlibrary.org/b/isbn/9781476735122-M.jpg",
-    "date_added": "2026-05-08",
-    "id": "f1489c0f-83b9-4aa4-9af7-9d43cef47b46",
-    "genres": [
-      "Science Fiction",
-      "Dystopian",
-      "Post-Apocalyptic"
-    ],
-    "summary": "The final book in the Silo trilogy, as Juliette fights to change a world that was designed never to change."
   }
 ]

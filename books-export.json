@@ -1227,5 +1227,203 @@
       "Post-Apocalyptic"
     ],
     "summary": "In a future where humanity lives in an underground silo, questioning the rules means death. But Juliette, a mechanic, begins to uncover the truth."
+  },
+  {
+    "recommended_by": "Claude",
+    "tags": [],
+    "cover_url": "none",
+    "title": "American Assassin",
+    "author": "Vince Flynn",
+    "series": "Mitch Rapp",
+    "series_order": 1,
+    "status": "reading_list",
+    "format": "audiobook",
+    "score": null,
+    "notes": null,
+    "date_added": "2026-07-23",
+    "id": "claude-rec-2026-0723-8000-0000000000101",
+    "genres": [
+      "Terrorism",
+      "Fiction, thrillers, general",
+      "Espionage",
+      "Fiction"
+    ],
+    "summary": "Recruited into a covert CIA program, Mitch Rapp becomes the agency's deadliest weapon in the war against terror."
+  },
+  {
+    "recommended_by": "Claude",
+    "tags": [],
+    "cover_url": "none",
+    "title": "Eye of the Needle",
+    "author": "Ken Follett",
+    "series": null,
+    "series_order": null,
+    "status": "reading_list",
+    "format": "audiobook",
+    "score": null,
+    "notes": null,
+    "date_added": "2026-07-23",
+    "id": "claude-rec-2026-0723-8000-0000000000102",
+    "genres": [
+      "World War, 1939-1945",
+      "Fiction, thrillers, general",
+      "Spies",
+      "Fiction"
+    ],
+    "summary": "A ruthless German spy holding the secret that could change the course of WWII races to reach Berlin, with only a stranded woman standing in his way."
+  },
+  {
+    "recommended_by": "Claude",
+    "tags": [],
+    "cover_url": "none",
+    "title": "Only Time Will Tell",
+    "author": "Jeffrey Archer",
+    "series": "The Clifton Chronicles",
+    "series_order": 1,
+    "status": "reading_list",
+    "format": "audiobook",
+    "score": null,
+    "notes": null,
+    "date_added": "2026-07-23",
+    "id": "claude-rec-2026-0723-8000-0000000000103",
+    "genres": [
+      "Fiction",
+      "Sagas",
+      "Domestic fiction",
+      "New York Times bestseller"
+    ],
+    "summary": "The first in the Clifton Chronicles follows Harry Clifton from the docks of Bristol through a sweeping multigenerational saga of ambition and secrets."
+  },
+  {
+    "recommended_by": "Claude",
+    "tags": [],
+    "cover_url": "none",
+    "title": "The Martian",
+    "author": "Andy Weir",
+    "series": null,
+    "series_order": null,
+    "status": "reading_list",
+    "format": "audiobook",
+    "score": null,
+    "notes": null,
+    "date_added": "2026-07-23",
+    "id": "claude-rec-2026-0723-8000-0000000000104",
+    "genres": [
+      "Science Fiction",
+      "Survival",
+      "Mars (Planet)",
+      "Fiction"
+    ],
+    "summary": "Stranded alone on Mars, astronaut Mark Watney must use grit and ingenuity to survive against impossible odds."
+  },
+  {
+    "recommended_by": "Claude",
+    "tags": [],
+    "cover_url": "none",
+    "title": "Mistborn: The Final Empire",
+    "author": "Brandon Sanderson",
+    "series": "Mistborn",
+    "series_order": 1,
+    "status": "reading_list",
+    "format": "audiobook",
+    "score": null,
+    "notes": null,
+    "date_added": "2026-07-23",
+    "id": "claude-rec-2026-0723-8000-0000000000105",
+    "genres": [
+      "Fantasy",
+      "Heist",
+      "Magic",
+      "Fiction"
+    ],
+    "summary": "A street thief and a crew of rebels plot to overthrow an immortal tyrant using an intricate metal-based magic system."
+  },
+  {
+    "recommended_by": "Claude",
+    "tags": [],
+    "cover_url": "none",
+    "title": "Killing Floor",
+    "author": "Lee Child",
+    "series": "Jack Reacher",
+    "series_order": 1,
+    "status": "reading_list",
+    "format": "audiobook",
+    "score": null,
+    "notes": null,
+    "date_added": "2026-07-23",
+    "id": "claude-rec-2026-0723-8000-0000000000106",
+    "genres": [
+      "Fiction, thrillers, general",
+      "Suspense",
+      "Ex-military personnel",
+      "Fiction"
+    ],
+    "summary": "Drifter and ex-military cop Jack Reacher is arrested for a murder he didn't commit in a small Georgia town hiding a deadly conspiracy."
+  },
+  {
+    "recommended_by": "Claude",
+    "tags": [],
+    "cover_url": "none",
+    "title": "The Cartel",
+    "author": "Don Winslow",
+    "series": "Cartel Trilogy",
+    "series_order": 2,
+    "status": "reading_list",
+    "format": "audiobook",
+    "score": null,
+    "notes": null,
+    "date_added": "2026-07-23",
+    "id": "claude-rec-2026-0723-8000-0000000000107",
+    "genres": [
+      "Drug traffic",
+      "Fiction, crime",
+      "Fiction, thrillers, general",
+      "Fiction"
+    ],
+    "summary": "DEA agent Art Keller returns to hunt the cartel boss he once put away, in the epic continuation of the drug-war saga begun in The Power of the Dog."
+  },
+  {
+    "recommended_by": "Claude",
+    "tags": [],
+    "cover_url": "none",
+    "title": "Dark Matter",
+    "author": "Blake Crouch",
+    "series": null,
+    "series_order": null,
+    "status": "reading_list",
+    "format": "audiobook",
+    "score": null,
+    "notes": null,
+    "date_added": "2026-07-23",
+    "id": "claude-rec-2026-0723-8000-0000000000108",
+    "genres": [
+      "Science Fiction",
+      "Suspense",
+      "Alternate realities",
+      "Fiction"
+    ],
+    "summary": "A physicist is abducted into an alternate version of his own life and must fight across realities to find his way home."
+  },
+  {
+    "recommended_by": "Claude",
+    "tags": [],
+    "cover_url": "none",
+    "title": "The Lincoln Lawyer",
+    "author": "Michael Connelly",
+    "series": "Mickey Haller",
+    "series_order": 1,
+    "status": "reading_list",
+    "format": "audiobook",
+    "score": null,
+    "notes": null,
+    "date_added": "2026-07-23",
+    "id": "claude-rec-2026-0723-8000-0000000000109",
+    "genres": [
+      "Legal stories",
+      "Fiction, thrillers, general",
+      "Defense (Criminal procedure)",
+      "Fiction"
+    ],
+    "summary": "Defence attorney Mickey Haller thinks he's landed a dream client, until the case turns into the fight of his life."
   }
 ]

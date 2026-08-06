@@ -1425,5 +1425,20 @@
       "Fiction"
     ],
     "summary": "Defence attorney Mickey Haller thinks he's landed a dream client, until the case turns into the fight of his life."
+  },
+  {
+    "title": "The Chemist",
+    "author": "A. A. Dhand",
+    "series": null,
+    "series_order": null,
+    "status": "completed",
+    "format": "audiobook",
+    "score": 8,
+    "tags": [],
+    "recommended_by": "Lyle",
+    "notes": null,
+    "cover_url": "https://covers.openlibrary.org/b/id/15118120-M.jpg",
+    "date_added": null,
+    "id": "bdd56964-907f-4ee1-af3a-8b462fadaa01"
   }
 ]

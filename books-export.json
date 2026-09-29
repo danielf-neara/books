@@ -1502,5 +1502,20 @@
     "cover_url": "https://covers.openlibrary.org/b/id/4309601-M.jpg",
     "date_added": null,
     "id": "6cdbd056-a7fa-46be-bdba-1395d6b8714a"
+  },
+  {
+    "title": "Transfer of power",
+    "author": "Vince Flynn",
+    "series": null,
+    "series_order": null,
+    "status": "completed",
+    "format": "audiobook",
+    "score": 6,
+    "tags": [],
+    "recommended_by": null,
+    "notes": null,
+    "cover_url": "https://covers.openlibrary.org/b/id/4309601-M.jpg",
+    "date_added": null,
+    "id": "ee91e9de-ccae-46e2-bc5f-c876e84e15b3"
   }
 ]

@@ -1472,5 +1472,20 @@
     "id": "ffe9f60e-2f91-4810-943a-32c240b3c7dc",
     "genres": [],
     "summary": ""
+  },
+  {
+    "title": "Kill shot",
+    "author": "Vince Flynn",
+    "series": null,
+    "series_order": null,
+    "status": "completed",
+    "format": "audiobook",
+    "score": 7,
+    "tags": [],
+    "recommended_by": null,
+    "notes": null,
+    "cover_url": "https://covers.openlibrary.org/b/id/7893590-M.jpg",
+    "date_added": null,
+    "id": "3cdb1c29-5860-40fe-9383-d816efc5cf3b"
   }
 ]

@@ -1517,5 +1517,20 @@
     "cover_url": "https://covers.openlibrary.org/b/id/4309601-M.jpg",
     "date_added": null,
     "id": "ee91e9de-ccae-46e2-bc5f-c876e84e15b3"
+  },
+  {
+    "title": "The Kingpin",
+    "author": "A. A. Dhand",
+    "series": null,
+    "series_order": null,
+    "status": "completed",
+    "format": "audiobook",
+    "score": 8,
+    "tags": [],
+    "recommended_by": null,
+    "notes": null,
+    "cover_url": null,
+    "date_added": null,
+    "id": "c56a488d-5ea1-4975-adbe-0c5442b93d89"
   }
 ]
